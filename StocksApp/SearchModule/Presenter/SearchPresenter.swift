@@ -18,7 +18,7 @@ final class SearchPresenter: SearchViewOutput, SearchInteractorOutput {
         interactor.obtainStocksList()
     }
     
-    func didLoadStocksList(_ stocksList: [Stock]) {
+    func didLoadStocksList(_ stocksList: [Ticker]) {
         view.handleObtainedStocks(stocksList)
     }
 }

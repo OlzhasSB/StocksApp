@@ -19,7 +19,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
         "Aggressive Small Caps",
         "Small Cap Gainers"
     ]
-    var stocksList: [Stock] = []
+    var stocksList: [Ticker] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count

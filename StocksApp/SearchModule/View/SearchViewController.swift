@@ -13,7 +13,7 @@ protocol SearchViewOutput {
 }
 
 protocol SearchViewInput: AnyObject {
-    func handleObtainedStocks(_ stocksList: [Stock])
+    func handleObtainedStocks(_ stocksList: [Ticker])
 }
 
 class SearchViewController: UIViewController {
@@ -79,7 +79,7 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: SearchViewInput {
-    func handleObtainedStocks(_ stocksList: [Stock]) {
+    func handleObtainedStocks(_ stocksList: [Ticker]) {
         dataDisplayManager?.stocksList = stocksList
         stocksListTable.reloadData()
     }

@@ -39,7 +39,7 @@ final class NetworkManager: Networkable {
         session = URLSession(configuration: .default)
     }
     
-    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Stock], NetworkError>) -> Void) {
+    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Ticker], NetworkError>) -> Void) {
         
         var components = urlComponents
         components.path = path
@@ -67,7 +67,7 @@ final class NetworkManager: Networkable {
             }
             
             do {
-                let stocksList = try JSONDecoder().decode([Stock].self, from: data)
+                let stocksList = try JSONDecoder().decode([Ticker].self, from: data)
                 DispatchQueue.main.async {
                     completion(.success(stocksList))
                 }
