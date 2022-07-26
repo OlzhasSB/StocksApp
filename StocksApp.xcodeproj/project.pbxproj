@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		31408685288E9EB0007FAFAA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 31408684288E9EB0007FAFAA /* SnapKit */; };
+		1C64252A288FD08C00211DB6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1C642529288FD08C00211DB6 /* SnapKit */; };
 		3140868C288EA0EF007FAFAA /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140868B288EA0EF007FAFAA /* CategoryCell.swift */; };
 		3140868E288EA963007FAFAA /* StockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140868D288EA963007FAFAA /* StockCell.swift */; };
 		31408690288EACAC007FAFAA /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3140868F288EACAC007FAFAA /* MainTabBarVC.swift */; };
@@ -72,7 +72,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31408685288E9EB0007FAFAA /* SnapKit in Frameworks */,
+				1C64252A288FD08C00211DB6 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,7 +298,7 @@
 			);
 			name = StocksApp;
 			packageProductDependencies = (
-				31408684288E9EB0007FAFAA /* SnapKit */,
+				1C642529288FD08C00211DB6 /* SnapKit */,
 			);
 			productName = StocksApp;
 			productReference = 31B984EF288E918D00E88E6F /* StocksApp.app */;
@@ -329,7 +329,7 @@
 			);
 			mainGroup = 31B984E6288E918C00E88E6F;
 			packageReferences = (
-				31408683288E9EB0007FAFAA /* XCRemoteSwiftPackageReference "SnapKit" */,
+				1C642528288FD08C00211DB6 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 31B984F0288E918D00E88E6F /* Products */;
 			projectDirPath = "";
@@ -588,7 +588,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		31408683288E9EB0007FAFAA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		1C642528288FD08C00211DB6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
 			requirement = {
@@ -599,9 +599,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		31408684288E9EB0007FAFAA /* SnapKit */ = {
+		1C642529288FD08C00211DB6 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 31408683288E9EB0007FAFAA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = 1C642528288FD08C00211DB6 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
