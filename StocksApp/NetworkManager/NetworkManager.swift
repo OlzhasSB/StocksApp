@@ -16,6 +16,7 @@ enum NetworkError: Error {
 protocol Networkable {
     func loadStocks(path: String, completion: @escaping (Result<[Stock], NetworkError>) -> Void)
     func loadNews(path: String, completion: @escaping (Result<[News], NetworkError>) -> Void)
+    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Stock], NetworkError>) -> Void)
 }
 
 final class NetworkManager: Networkable {
@@ -39,10 +40,12 @@ final class NetworkManager: Networkable {
         session = URLSession(configuration: .default)
     }
     
-    func loadStocks(path: String, completion: @escaping (Result<[Stock], NetworkError>) -> Void) {
+    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Stock], NetworkError>) -> Void) {
         
         var components = urlComponents
         components.path = path
+        components.queryItems?.append(queryItem)
+    
         
         guard let url = components.url else {
             DispatchQueue.main.async {
@@ -50,6 +53,8 @@ final class NetworkManager: Networkable {
             }
             return
         }
+        
+        print(url)
         
         let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
@@ -64,6 +69,7 @@ final class NetworkManager: Networkable {
                 print("Error: HTTP request failed")
                 return
             }
+            
             do {
                 let stocksList = try JSONDecoder().decode([Stock].self, from: data)
                 DispatchQueue.main.async {

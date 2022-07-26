@@ -32,6 +32,7 @@ class SearchViewController: UIViewController {
     private let stocksListTable: UITableView = {
         let table = UITableView()
         table.register(StockCell.self, forCellReuseIdentifier: "stockCell")
+        table.backgroundColor = .systemGray5
         return table
     }()
     
