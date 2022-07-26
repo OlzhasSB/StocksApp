@@ -12,7 +12,7 @@ protocol SearchInteractorInput {
 }
 
 protocol SearchInteractorOutput: AnyObject {
-    func didLoadStocksList(_ stocksList: [Stock])
+    func didLoadStocksList(_ stocksList: [Ticker])
 }
 
 final class SearchInteractor: SearchInteractorInput {
@@ -28,12 +28,20 @@ final class SearchInteractor: SearchInteractorInput {
         let queryItem = URLQueryItem(name: "exchange", value: "US")
         networkManager.loadStocks(path: "/api/v1/stock/symbol", queryItem: queryItem) { [weak self] (result) in
             switch result {
-            case .success(let stocksList):
+            case .success(let tickersList):
+                let stocksList
+                for index in 0..<49 {
+                    
+                }
                 self?.output.didLoadStocksList(stocksList)
             case .failure(let error):
                 print(error)
             }
         }
+        
+        
+        
+        
     }
     
     
