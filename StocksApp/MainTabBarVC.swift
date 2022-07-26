@@ -25,6 +25,7 @@ class MainTabBarVC: UITabBarController {
         view.backgroundColor = .systemBackground
         makeTabBarViews()
     }
+    //sd
     
     private func makeTabBarViews() {
         
