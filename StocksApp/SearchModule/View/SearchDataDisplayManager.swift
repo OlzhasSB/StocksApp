@@ -27,7 +27,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
-        cell.textLabel?.text = stocksList[indexPath.row].displaySymbol
+        cell.textLabel?.text = stocksList[indexPath.row].description
         return cell
     }
     

@@ -120,14 +120,6 @@
 			path = DetailsModule;
 			sourceTree = "<group>";
 		};
-		1C64252C288FD45D00211DB6 /* TabBar */ = {
-			isa = PBXGroup;
-			children = (
-				3140868F288EACAC007FAFAA /* MainTabBarVC.swift */,
-			);
-			path = TabBar;
-			sourceTree = "<group>";
-		};
 		1C64252D288FD47200211DB6 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,8 +349,8 @@
 			isa = PBXGroup;
 			children = (
 				31B98509288E91A900E88E6F /* Supporting Files */,
+				3140868F288EACAC007FAFAA /* MainTabBarVC.swift */,
 				1C64254A288FE28E00211DB6 /* NetworkManager */,
-				1C64252C288FD45D00211DB6 /* TabBar */,
 				1C64253F288FD5E400211DB6 /* StocksEntity */,
 				31B9850A288E92DB00E88E6F /* SearchModule */,
 				31B9850B288E92EF00E88E6F /* FavouritesModule */,

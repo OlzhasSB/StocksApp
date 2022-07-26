@@ -46,11 +46,11 @@ class NewsViewController: UIViewController {
     }
     
     private func configureTableCollectionViews() {
-        categoriesCollectionView.delegate = dataDisplayManager
-        categoriesCollectionView.dataSource = dataDisplayManager
-        
-        newsTableView.delegate = dataDisplayManager
-        newsTableView.dataSource = dataDisplayManager
+//        categoriesCollectionView.delegate = dataDisplayManager
+//        categoriesCollectionView.dataSource = dataDisplayManager
+//        
+//        newsTableView.delegate = dataDisplayManager
+//        newsTableView.dataSource = dataDisplayManager
     }
     
     private func makeConstraints() {
@@ -58,13 +58,13 @@ class NewsViewController: UIViewController {
         view.addSubview(categoriesCollectionView)
         categoriesCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            make.top.equalTo(searchBar.snp.bottom)
+//            make.top.equalTo(searchBar.snp.bottom)
             make.height.equalTo(150)
         }
         
         view.addSubview(newsTableView)
         newsTableView.snp.makeConstraints { make in
-            make.top.equalTo(categoriesCollection.snp.bottom)
+//            make.top.equalTo(categoriesCollection.snp.bottom)
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
@@ -74,11 +74,11 @@ class NewsViewController: UIViewController {
 extension NewsViewController: NewsViewInput {
     
     func hundleObtainedNewsCategories(_ categories: NewsCategoriesEntity) {
-        <#code#>
+//        <#code#>
     }
     
     func hundleObtainedNews(_ news: [News]) {
-        <#code#>
+//        <#code#>
     }
     
 }
