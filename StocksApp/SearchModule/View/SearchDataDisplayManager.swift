@@ -19,11 +19,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
         "Aggressive Small Caps",
         "Small Cap Gainers"
     ]
-    var stocksList = [
-        "Apple",
-        "Amazon",
-        "Google"
-    ]
+    var stocksList: [Stock] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
@@ -31,7 +27,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
-        cell.textLabel?.text = stocksList[indexPath.row]
+        cell.textLabel?.text = stocksList[indexPath.row].displaySymbol
         return cell
     }
     

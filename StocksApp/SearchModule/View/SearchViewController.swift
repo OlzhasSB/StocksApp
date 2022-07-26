@@ -13,7 +13,7 @@ protocol SearchViewOutput {
 }
 
 protocol SearchViewInput: AnyObject {
-    
+    func handleObtainedStocks(_ stocksList: [Stock])
 }
 
 class SearchViewController: UIViewController {
@@ -35,10 +35,12 @@ class SearchViewController: UIViewController {
         return table
     }()
     
+    var output: SearchViewOutput?
     var dataDisplayManager: SearchDataDisplayManager?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        output?.didLoadView()
         
         configureTableCollectionViews()
         makeConstraints()
@@ -73,4 +75,11 @@ class SearchViewController: UIViewController {
         }
     }
 
+}
+
+extension SearchViewController: SearchViewInput {
+    func handleObtainedStocks(_ stocksList: [Stock]) {
+        dataDisplayManager?.stocksList = stocksList
+        stocksListTable.reloadData()
+    }
 }

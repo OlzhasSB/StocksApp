@@ -8,11 +8,11 @@
 import Foundation
 
 protocol SearchInteractorInput {
-    func obtainStocksList(with movie: Movie)
+    func obtainStocksList()
 }
 
 protocol SearchInteractorOutput: AnyObject {
-    func didLoadStocksList(_ cast: [PersonEntity])
+    func didLoadStocksList(_ stocksList: [Stock])
 }
 
 final class SearchInteractor: SearchInteractorInput {
@@ -20,26 +20,21 @@ final class SearchInteractor: SearchInteractorInput {
     weak var output: SearchInteractorOutput!
     private var networkManager: Networkable
     
-    var creditsIds: [Actor] = []
+    var stocksList: [Stock] = []
     
     required init(networkManager: Networkable) {
         self.networkManager = networkManager
     }
     
-    func obtainStocksList(with movie: Movie) {
-        
-        var cast: [PersonEntity] = []
-        let movieId = movie.id
-        
-        networkManager.getCredits(path: "/3/movie/\(movieId)/credits") { [weak self] ids in
-            for id in ids {
-                self?.networkManager.getCast(path: "/3/person/\(id.id)") { [weak self] person in
-                    cast.append(person)
-                    self?.output.didLoadMovieCast(cast)
-                }
+    func obtainStocksList() {
+        networkManager.loadStocks(path: "/api/v1/stock/symbol?exchange=US") { [weak self] (result) in
+            switch result {
+            case .success(let stocksList):
+                self?.output.didLoadStocksList(stocksList)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
-        
 
     }
     
