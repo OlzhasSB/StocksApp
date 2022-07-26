@@ -25,7 +25,6 @@ class MainTabBarVC: UITabBarController {
 
         makeTabBarViews()
     }
-    
 
     private func makeTabBarViews() {
 
