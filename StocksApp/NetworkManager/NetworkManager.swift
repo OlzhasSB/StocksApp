@@ -11,6 +11,8 @@ final class NetworkManager {
     
     static var shared = NetworkManager()
     
+    var retrievedToken: String = "cbfqc1aad3ictm4bs4l0"
+    
     var urlComponents: URLComponents = {
         var components = URLComponents()
         components.scheme = "https"
@@ -34,6 +36,7 @@ final class NetworkManager {
         }
         
         var urlRequest = URLRequest(url: url)
+        urlRequest.addValue("Bearer \(retrievedToken)", forHTTPHeaderField: "Authorization")
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
         urlRequest.httpMethod = "GET"
