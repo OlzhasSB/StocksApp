@@ -19,7 +19,6 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
         "Aggressive Small Caps",
         "Small Cap Gainers"
     ]
-    
     var stocksList = [
         "Apple",
         "Amazon",
