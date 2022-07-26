@@ -27,7 +27,7 @@ final class SearchInteractor: SearchInteractorInput {
     }
     
     func obtainStocksList() {
-        networkManager.loadStocks(path: "/api/v1/stock/symbol?exchange=US") { [weak self] (result) in
+        networkManager.loadStocks(path: "/api/v1/stock/symbolexchange=US") { [weak self] (result) in
             switch result {
             case .success(let stocksList):
                 self?.output.didLoadStocksList(stocksList)
