@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class SearchDataDisplayManager: NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
+final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     
     var categories = [
         "Undervalued Growth Stocks",
@@ -26,19 +26,6 @@ final class SearchDataDisplayManager: NSObject, UICollectionViewDelegate, UIColl
         "Google"
     ]
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCell
-        return cell
-    }
-    
-}
-
-extension SearchDataDisplayManager: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
     }
@@ -46,6 +33,19 @@ extension SearchDataDisplayManager: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
         cell.textLabel?.text = stocksList[indexPath.row]
+        return cell
+    }
+    
+}
+
+extension SearchDataDisplayManager: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCell
         return cell
     }
     

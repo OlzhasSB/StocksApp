@@ -9,24 +9,7 @@ import UIKit
 import SnapKit
 
 class SearchViewController: UIViewController {
-    
-    var categories = [
-        "Undervalued Growth Stocks",
-        "Growth Technology Stocks",
-        "Day Gainers",
-        "Day Losers",
-        "Most Actives",
-        "Undervalued Large Caps",
-        "Aggressive Small Caps",
-        "Small Cap Gainers"
-    ]
-    
-    var stocksList = [
-        "Apple",
-        "Amazon",
-        "Google"
-    ]
-    
+     
     private let searchBar = UISearchBar()
     private let categoriesCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -82,31 +65,4 @@ class SearchViewController: UIViewController {
         }
     }
 
-}
-
-extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoryCell
-        return cell
-    }
-    
-}
-
-extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stocksList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
-        cell.textLabel?.text = stocksList[indexPath.row]
-        return cell
-    }
-    
 }
