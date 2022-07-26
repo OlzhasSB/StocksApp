@@ -14,7 +14,7 @@ enum NetworkError: Error {
 }
 
 protocol Networkable {
-    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Stock], NetworkError>) -> Void)
+    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Ticker], NetworkError>) -> Void)
     func loadNews(path: String, completion: @escaping (Result<[News], NetworkError>) -> Void)
 }
 
