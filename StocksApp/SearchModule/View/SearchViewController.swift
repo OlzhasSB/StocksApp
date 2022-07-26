@@ -8,6 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol SearchViewOutput {
+    func didLoadView()
+}
+
+protocol SearchViewInput: AnyObject {
+    
+}
+
 class SearchViewController: UIViewController {
      
     private let searchBar = UISearchBar()
