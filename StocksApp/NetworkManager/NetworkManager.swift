@@ -7,14 +7,28 @@
 
 import Foundation
 
-final class NetworkManager {
-    
+enum NetworkError: Error {
+    case invalidURL
+    case noData
+    case decodingError
+}
+
+protocol Networkable {
+    func loadStocks(path: String, completion: @escaping (Result<[Stock], NetworkError>) -> Void)
+}
+
+final class NetworkManager: Networkable {
+
+    private let API_KEY = "cbcgmuiad3ib4g5ulqdg"
     static var shared = NetworkManager()
     
-    var urlComponents: URLComponents = {
+    private lazy var urlComponents: URLComponents = {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "aidateam.herokuapp.com"
+        components.host = "finnhub.io"
+        components.queryItems = [
+            URLQueryItem(name: "token", value: API_KEY)
+        ]
         return components
     }()
 
@@ -24,21 +38,19 @@ final class NetworkManager {
         session = URLSession(configuration: .default)
     }
     
-    func loadMentorProfile(completion: @escaping (News) -> Void) {
+    func loadStocks(path: String, completion: @escaping (Result<[Stock], NetworkError>) -> Void) {
         
         var components = urlComponents
-        components.path = "/api/user/profile"
-
+        components.path = path
+        
         guard let url = components.url else {
+            DispatchQueue.main.async {
+                completion(.failure(.invalidURL))
+            }
             return
         }
         
-        var urlRequest = URLRequest(url: url)
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        urlRequest.httpMethod = "GET"
-        
-        let task = session.dataTask(with: urlRequest) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print("Error: error calling GET")
                 return
@@ -48,18 +60,19 @@ final class NetworkManager {
                 return
             }
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                print("\(String(describing: response))")
                 print("Error: HTTP request failed")
                 return
             }
             do {
-                let news = try JSONDecoder().decode(News.self, from: data)
+                let stocksList = try JSONDecoder().decode([Stock].self, from: data)
                 DispatchQueue.main.async {
-                    completion(news)
+                    completion(.success(stocksList))
                 }
 
             } catch {
-                print("no json")
+                DispatchQueue.main.async {
+                    completion(.failure(.decodingError))
+                }
             }
         }
         task.resume()
