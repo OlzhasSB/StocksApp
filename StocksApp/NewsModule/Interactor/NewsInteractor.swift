@@ -29,11 +29,11 @@ final class NewsInteractor: NewsInteractorInput {
     
     func obtainNews() {
         network.loadNews(path: "/api/v1/news") { [weak self] news in
-            self?.output.didLoadNews(news)
+//            self?.output.didLoadNews(news)
         }
     }
     
     func ontainFilteredNews() {
-        <#code#>
+//        <#code#>
     }
 }

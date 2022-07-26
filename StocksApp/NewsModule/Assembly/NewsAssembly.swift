@@ -20,7 +20,7 @@ final class NewsModuleAssembly {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
         let presenter = NewsPresenter()
-        let network: Networkable
+        let network: Networkable = NetworkManager.shared
         let interactor = NewsInteractor(network: network)
         let router = NewsRouter()
         

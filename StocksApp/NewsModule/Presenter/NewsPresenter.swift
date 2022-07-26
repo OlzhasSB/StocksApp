@@ -21,18 +21,18 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput, NewsModuleInput
     ]
     
     func didLoadView() {
-        <#code#>
+//        <#code#>
     }
     
     func didSelectCategoryCell(with category: String) {
-        <#code#>
+//        <#code#>
     }
     
     func didLoadNews(_ news: News) {
-        <#code#>
+//        <#code#>
     }
     
     func didFilteredNews(_ news: News) {
-        <#code#>
+//        <#code#>
     }
 }
