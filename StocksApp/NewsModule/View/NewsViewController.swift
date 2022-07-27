@@ -34,28 +34,30 @@ class NewsViewController: UIViewController {
     private let categoriesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 25, height: 40)
-        layout.minimumLineSpacing = 1
+//        layout.itemSize = CGSize(width: 105, height: 40)
+        layout.minimumLineSpacing = 10
     
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        var collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.register(NewsCategoryCollectionViewCell.self, forCellWithReuseIdentifier: "NewsCategoryCollectionViewCell")
-        collection.backgroundColor = .blue
+        collection.showsHorizontalScrollIndicator = false
+//        collection.backgroundColor = .red
+
         return collection
     }()
     
     private let newsTableView: UITableView = {
         let table = UITableView()
         table.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
-        table.backgroundColor = .red
+        table.showsVerticalScrollIndicator = false
         return table
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        output?.didLoadView()
         setUpTableCollectionViews()
         makeConstraints()
+        output?.didLoadView()
     }
     
     private func setUpTableCollectionViews() {
@@ -84,8 +86,8 @@ class NewsViewController: UIViewController {
         view.addSubview(categoriesCollectionView)
         categoriesCollectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(-20)
-            make.left.right.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(100)
+            make.left.right.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.height.equalTo(75)
         }
         
         view.addSubview(newsTableView)

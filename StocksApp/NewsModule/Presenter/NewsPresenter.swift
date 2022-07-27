@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NewsPresenter: NewsViewOutput, NewsInteractorOutput, NewsModuleInput {
+final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     
     weak var view: NewsViewInput!
     var interactor: NewsInteractorInput!
@@ -15,24 +15,29 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput, NewsModuleInput
     
     private var categories: [NewsCategoriesEntity] = [
         NewsCategoriesEntity.init(category: "All"),
-        NewsCategoriesEntity.init(category: "Top news"),
-        NewsCategoriesEntity.init(category: "Technology"),
-        NewsCategoriesEntity.init(category: "Business")
+        NewsCategoriesEntity.init(category: "top news"),
+        NewsCategoriesEntity.init(category: "business"),
+        NewsCategoriesEntity.init(category: "technology")
     ]
+    private var news: [News] = []
     
     func didLoadView() {
-//        <#code#>
+        interactor.obtainNews()
+        view.hundleObtainedNewsCategories(categories)
+        view.hundleObtainedNews(news)
     }
     
     func didSelectCategoryCell(with category: String) {
-//        <#code#>
+        interactor.ontainFilteredNews(with: news, category: category)
     }
     
-    func didLoadNews(_ news: News) {
-//        <#code#>
+    func didLoadNews(_ news: [News]) {
+        self.news = news
+        view.hundleObtainedNews(news)
     }
     
-    func didFilteredNews(_ news: News) {
-//        <#code#>
+    func didFilteredNews(_ news: [News]) {
+        view.hundleObtainedNews(news)
     }
+
 }

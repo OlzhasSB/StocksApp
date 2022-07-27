@@ -15,7 +15,7 @@ enum NetworkError: Error {
 
 protocol Networkable {
     func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Ticker], NetworkError>) -> Void)
-    func loadNews(path: String, completion: @escaping (Result<[News], NetworkError>) -> Void)
+    func loadNews(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[News], NetworkError>) -> Void)
 }
 
 final class NetworkManager: Networkable {
@@ -81,10 +81,11 @@ final class NetworkManager: Networkable {
         task.resume()
     }
     
-    func loadNews(path: String, completion: @escaping (Result<[News], NetworkError>) -> Void) {
+    func loadNews(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[News], NetworkError>) -> Void) {
         
         var components = urlComponents
         components.path = path
+        components.queryItems?.append(queryItem)
         
         guard let url = components.url else {
             DispatchQueue.main.async {

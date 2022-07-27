@@ -18,7 +18,7 @@ class MainTabBarVC: UITabBarController {
     
     private var searchVC = SearchModuleAssembly().assemble()
     private var favouritesVC = FavouritesViewController()
-    private var newsVC = NewsViewController()
+    private var newsVC = NewsModuleAssembly().assemle()
     
     override func viewDidLoad() {
         super.viewDidLoad()

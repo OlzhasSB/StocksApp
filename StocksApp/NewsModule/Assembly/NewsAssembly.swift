@@ -7,24 +7,19 @@
 
 import UIKit
 
-protocol NewsModuleInput {
-}
-
-typealias NewsModuleConfiguration = (NewsModuleInput) -> Void
+typealias NewsModuleConfiguration = () -> Void
 
 final class NewsModuleAssembly {
     
-    func assemle(_ configuration: NewsModuleConfiguration? = nil) -> NewsViewController {
+    func assemle() -> UIViewController {
         
         let dataDisplayManager = NewsDataDisplayManager()
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "NewsViewController") as! NewsViewController
+        let viewController = NewsViewController()
         let presenter = NewsPresenter()
         let network: Networkable = NetworkManager.shared
         let interactor = NewsInteractor(network: network)
         let router = NewsRouter()
         
-        configuration?(presenter)
         viewController.dataDisplayManager = dataDisplayManager
         viewController.output = presenter
         
@@ -39,4 +34,7 @@ final class NewsModuleAssembly {
         return viewController
     }
 }
+
+
+        
 

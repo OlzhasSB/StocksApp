@@ -29,21 +29,13 @@ final class SearchInteractor: SearchInteractorInput {
         networkManager.loadStocks(path: "/api/v1/stock/symbol", queryItem: queryItem) { [weak self] (result) in
             switch result {
             case .success(let tickersList):
-                let stocksList
                 for index in 0..<49 {
-                    
+
                 }
-                self?.output.didLoadStocksList(stocksList)
+                self?.output.didLoadStocksList(tickersList)
             case .failure(let error):
                 print(error)
             }
         }
-        
-        
-        
-        
     }
-    
-    
-    
 }
