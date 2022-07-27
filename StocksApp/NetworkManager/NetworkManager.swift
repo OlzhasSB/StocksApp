@@ -7,15 +7,9 @@
 
 import Foundation
 
-enum NetworkError: Error {
-    case invalidURL
-    case noData
-    case decodingError
-}
-
 protocol Networkable {
-    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Stock], NetworkError>) -> Void)
-    func loadNews(path: String, completion: @escaping (Result<[News], NetworkError>) -> Void)
+    func loadNews(path: String, completion: @escaping (Result<[News], APINetworkError>) -> Void)
+    func fetchData<T: Decodable>(path: String, queryItem: URLQueryItem, completion: @escaping (Result<T, APINetworkError>) -> Void)
 }
 
 final class NetworkManager: Networkable {
@@ -39,7 +33,7 @@ final class NetworkManager: Networkable {
         session = URLSession(configuration: .default)
     }
     
-    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Ticker], NetworkError>) -> Void) {
+    func fetchData<T: Decodable>(path: String, queryItem: URLQueryItem, completion: @escaping (Result<T, APINetworkError>) -> Void) {
         
         var components = urlComponents
         components.path = path
@@ -54,22 +48,28 @@ final class NetworkManager: Networkable {
         
         let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
-                print("Error: error calling GET")
+                DispatchQueue.main.async {
+                    completion(.failure(.failedGET))
+                }
                 return
             }
             guard let data = data else {
-                print("Error: Did not receive data")
+                DispatchQueue.main.async {
+                    completion(.failure(.dataNotFound))
+                }
                 return
             }
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                print("Error: HTTP request failed")
+                DispatchQueue.main.async {
+                    completion(.failure(.httpRequestFailed))
+                }
                 return
             }
             
             do {
-                let stocksList = try JSONDecoder().decode([Ticker].self, from: data)
+                let result = try JSONDecoder().decode(T.self, from: data)
                 DispatchQueue.main.async {
-                    completion(.success(stocksList))
+                    completion(.success(result))
                 }
 
             } catch {
@@ -81,7 +81,7 @@ final class NetworkManager: Networkable {
         task.resume()
     }
     
-    func loadNews(path: String, completion: @escaping (Result<[News], NetworkError>) -> Void) {
+    func loadNews(path: String, completion: @escaping (Result<[News], APINetworkError>) -> Void) {
         
         var components = urlComponents
         components.path = path
