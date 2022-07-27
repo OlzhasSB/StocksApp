@@ -9,6 +9,7 @@ import Foundation
 
 protocol SearchInteractorInput {
     func obtainStocksList()
+    func shouldHideSearchView(_ text: String) -> Bool
 }
 
 protocol SearchInteractorOutput: AnyObject {
@@ -24,9 +25,20 @@ final class SearchInteractor: SearchInteractorInput {
         self.networkManager = networkManager
     }
     
+    func shouldHideSearchView(_ text: String) -> Bool {
+        let isHidden: Bool
+        if text == "" {
+            isHidden = false
+        } else {
+            isHidden = true
+        }
+        return isHidden
+    }
+    
     func obtainStocksList() {
         let queryItem = URLQueryItem(name: "exchange", value: "US")
-        networkManager.loadStocks(path: "/api/v1/stock/symbol", queryItem: queryItem) { [weak self] (result) in
+        
+        networkManager.fetchData(path: "/api/v1/stock/symbol", queryItem: queryItem) { [weak self] (result : Result <[Ticker], APINetworkError>) in
             switch result {
             case .success(let tickersList):
                 for index in 0..<49 {
@@ -34,8 +46,9 @@ final class SearchInteractor: SearchInteractorInput {
                 }
                 self?.output.didLoadStocksList(tickersList)
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
+    
 }

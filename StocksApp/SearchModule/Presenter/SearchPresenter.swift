@@ -14,11 +14,19 @@ final class SearchPresenter: SearchViewOutput, SearchInteractorOutput {
     var router: SearchRouterInput!
     
     func didLoadView() {
-        // Network запрос - interactor
         interactor.obtainStocksList()
     }
     
-    func didLoadStocksList(_ stocksList: [Ticker]) {
-        view.handleObtainedStocks(stocksList)
+    func didTapSearchBar() {
+        view.handleSearchBarTap()
+    }
+    
+    func didStartEditingSearchBar(_ text: String) {
+        let isHidden = interactor.shouldHideSearchView(text)
+        view.handleSearchBarTextEditing(isHidden)
+    }
+    
+    func didLoadStocksList(_ tickersList: [Ticker]) {
+        view.handleObtainedStocks(tickersList)
     }
 }
