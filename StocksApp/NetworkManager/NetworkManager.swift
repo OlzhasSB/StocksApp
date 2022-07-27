@@ -8,9 +8,7 @@
 import Foundation
 
 protocol Networkable {
-    func loadStocks(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[Ticker], NetworkError>) -> Void)
-    func loadNews(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[News], NetworkError>) -> Void)
-    func loadNews(path: String, completion: @escaping (Result<[News], APINetworkError>) -> Void)
+    
     func fetchData<T: Decodable>(path: String, queryItem: URLQueryItem, completion: @escaping (Result<T, APINetworkError>) -> Void)
 }
 
@@ -72,47 +70,6 @@ final class NetworkManager: Networkable {
                 let result = try JSONDecoder().decode(T.self, from: data)
                 DispatchQueue.main.async {
                     completion(.success(result))
-                }
-
-            } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(.decodingError))
-                }
-            }
-        }
-        task.resume()
-    }
-    
-    func loadNews(path: String, queryItem: URLQueryItem, completion: @escaping (Result<[News], NetworkError>) -> Void) {
-        
-        var components = urlComponents
-        components.path = path
-        components.queryItems?.append(queryItem)
-        
-        guard let url = components.url else {
-            DispatchQueue.main.async {
-                completion(.failure(.invalidURL))
-            }
-            return
-        }
-        
-        let task = session.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                print("Error: error calling GET")
-                return
-            }
-            guard let data = data else {
-                print("Error: Did not receive data")
-                return
-            }
-            guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                print("Error: HTTP request failed")
-                return
-            }
-            do {
-                let news = try JSONDecoder().decode([News].self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(news))
                 }
 
             } catch {

@@ -29,7 +29,7 @@ final class NewsInteractor: NewsInteractorInput {
     
     func obtainNews() {
         let queryItem = URLQueryItem(name: "category", value: "general")
-        network.loadNews(path: "/api/v1/news", queryItem: queryItem) { [weak self] (result) in
+        network.fetchData(path: "/api/v1/news", queryItem: queryItem) { [weak self] (result : Result <[News], APINetworkError>) in
             switch result {
             case .success(let news):
                 self?.output.didLoadNews(news)
