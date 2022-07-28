@@ -26,11 +26,9 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsCategoryCollectionViewCell", for: indexPath) as! NewsCategoryCollectionViewCell
         cell.categorylabel.text = categories[indexPath.row].category
-        cell.layer.borderColor = UIColor.darkGray.cgColor
-        cell.layer.borderWidth = 2
-        cell.layer.cornerRadius = 5
+        cell.backgroundColor = .systemGray6
+        cell.layer.cornerRadius = 17
         cell.layer.masksToBounds = true
-        
         return cell
     }
     
@@ -38,12 +36,28 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let kWhateverHeightYouWant = 35
-        return CGSize(width: 105, height: CGFloat(kWhateverHeightYouWant))
+        return CGSize(width: categories[indexPath.row].category.size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 17)]).width + 25, height: 35)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         onCategoryDidSelect?(categories[indexPath.row].category)
+        
+        if let cell = collectionView.cellForItem(at: indexPath) as? NewsCategoryCollectionViewCell {
+            cell.backgroundColor = .black
+            cell.categorylabel.textColor = .white
+            cell.layer.cornerRadius = 17
+            cell.layer.masksToBounds = true
+            }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? NewsCategoryCollectionViewCell else {
+            return
+        }
+        cell.backgroundColor = .systemGray6
+        cell.categorylabel.textColor = .black
+        cell.layer.cornerRadius = 17
+        cell.layer.masksToBounds = true
     }
 }
 

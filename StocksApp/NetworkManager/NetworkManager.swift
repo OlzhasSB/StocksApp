@@ -14,7 +14,7 @@ protocol Networkable {
 
 final class NetworkManager: Networkable {
 
-    private let API_KEY = "cbcgmuiad3ib4g5ulqdg"
+    private let API_KEY = "cbfqc1aad3ictm4bs4l0"
     static var shared = NetworkManager()
     
     private lazy var urlComponents: URLComponents = {
@@ -46,6 +46,13 @@ final class NetworkManager: Networkable {
             return
         }
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        decoder.dateDecodingStrategy = .secondsSince1970
+        
         let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 DispatchQueue.main.async {
@@ -62,12 +69,13 @@ final class NetworkManager: Networkable {
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
                 DispatchQueue.main.async {
                     completion(.failure(.httpRequestFailed))
+                    print("my response is \(response)")
                 }
                 return
             }
             
             do {
-                let result = try JSONDecoder().decode(T.self, from: data)
+                let result = try decoder.decode(T.self, from: data)
                 DispatchQueue.main.async {
                     completion(.success(result))
                 }
