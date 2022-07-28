@@ -12,4 +12,12 @@ struct Ticker: Decodable {
     let displaySymbol: String
 }
 
- 
+struct LookupEntity: Decodable {
+    let result: [Ticker]
+}
+
+struct Stock: Decodable {
+    let logo: String
+    let name: String
+    let ticker: String
+}

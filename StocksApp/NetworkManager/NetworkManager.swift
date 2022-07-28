@@ -8,13 +8,12 @@
 import Foundation
 
 protocol Networkable {
-    
     func fetchData<T: Decodable>(path: String, queryItem: URLQueryItem, completion: @escaping (Result<T, APINetworkError>) -> Void)
 }
 
 final class NetworkManager: Networkable {
 
-    private let API_KEY = "cbcgmuiad3ib4g5ulqdg"
+    private let API_KEY = "cbfqc1aad3ictm4bs4l0"
     static var shared = NetworkManager()
     
     private lazy var urlComponents: URLComponents = {
@@ -40,29 +39,29 @@ final class NetworkManager: Networkable {
         components.queryItems?.append(queryItem)
         
         guard let url = components.url else {
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 completion(.failure(.invalidURL))
-            }
+//            }
             return
         }
         
         let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     completion(.failure(.failedGET))
-                }
+//                }
                 return
             }
             guard let data = data else {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     completion(.failure(.dataNotFound))
-                }
+//                }
                 return
             }
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     completion(.failure(.httpRequestFailed))
-                }
+//                }
                 return
             }
             
@@ -73,9 +72,9 @@ final class NetworkManager: Networkable {
                 }
 
             } catch {
-                DispatchQueue.main.async {
+//                DispatchQueue.main.async {
                     completion(.failure(.decodingError))
-                }
+//                }
             }
         }
         task.resume()

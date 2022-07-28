@@ -7,23 +7,63 @@
 
 import UIKit
 
-class FavouritesViewController: UIViewController {
+protocol FavouritesViewOutput {
+    func didLoadView()
+}
 
+protocol FavouritesViewInput: AnyObject {
+    func handleObtainedFavouriteStocks(_ favouriteStocks: [Stock])
+}
+
+class FavouritesViewController: UIViewController {
+    
+    var output: FavouritesViewOutput?
+    var dataDisplayManager: FavouritesDataDisplayManager?
+
+    private let favouriteLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Favourite"
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        return label
+    }()
+    private let favouriteStocksTable: UITableView = {
+        let table = UITableView()
+        table.register(StockCell.self, forCellReuseIdentifier: "stockCell")
+        return table
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        output?.didLoadView()
+        
+        makeConstraints()
+        configureTableView()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func configureTableView() {
+        favouriteStocksTable.delegate = dataDisplayManager
+        favouriteStocksTable.dataSource = dataDisplayManager
     }
-    */
+    
+    private func makeConstraints() {
+        view.addSubview(favouriteLabel)
+        favouriteLabel.snp.makeConstraints { make in
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).offset(16)
+        }
+        
+        view.addSubview(favouriteStocksTable)
+        favouriteStocksTable.snp.makeConstraints { make in
+            make.top.equalTo(favouriteLabel.snp.bottom)
+            make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+}
 
+extension FavouritesViewController: FavouritesViewInput {
+    
+    func handleObtainedFavouriteStocks(_ favouriteStocks: [Stock]) {
+        dataDisplayManager?.favouriteStocks = favouriteStocks
+    }
+    
 }

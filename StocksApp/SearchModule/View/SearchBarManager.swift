@@ -11,6 +11,7 @@ final class SearchBarManager: NSObject, UISearchBarDelegate {
     
     var onSearchBarTapped: (() -> Void)?
     var onSearchBarTextEditing: ((String) -> Void)?
+    var onSearchBarCancelTapped: (() -> Void)?
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         onSearchBarTextEditing?(searchText)
@@ -19,6 +20,10 @@ final class SearchBarManager: NSObject, UISearchBarDelegate {
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         onSearchBarTapped?()
         return true
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        onSearchBarCancelTapped?()
     }
     
 }

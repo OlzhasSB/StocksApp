@@ -12,12 +12,16 @@ protocol SearchViewOutput {
     func didLoadView()
     func didTapSearchBar()
     func didStartEditingSearchBar(_ text: String)
+    func didTapCancelSearchBar()
+    func didResignSearchBar()
 }
 
 protocol SearchViewInput: AnyObject {
-    func handleObtainedStocks(_ tickersList: [Ticker])
+    func handleObtainedStock(_ stock: Stock)
+    func handleObtainedLookupList(_ lookupList: [Ticker])
     func handleSearchBarTap()
     func handleSearchBarTextEditing(_ isHidden: Bool)
+    func handleSearchBarCancel()
 }
 
 class SearchViewController: UIViewController {
@@ -90,6 +94,7 @@ class SearchViewController: UIViewController {
         output?.didLoadView()
         
         configureTableCollectionViews()
+        configureSearchBar()
         makeConstraints()
     }
     
@@ -99,13 +104,18 @@ class SearchViewController: UIViewController {
         
         stocksListTable.delegate = dataDisplayManager
         stocksListTable.dataSource = dataDisplayManager
-        
+    }
+    
+    private func configureSearchBar() {
         searchBar.delegate = searchBarManager
         searchBarManager?.onSearchBarTapped = { [weak self] in
             self?.output?.didTapSearchBar()
         }
         searchBarManager?.onSearchBarTextEditing = { [weak self] text in
             self?.output?.didStartEditingSearchBar(text)
+        }
+        searchBarManager?.onSearchBarCancelTapped = { [weak self] in
+            self?.output?.didTapCancelSearchBar()
         }
     }
     
@@ -162,8 +172,17 @@ class SearchViewController: UIViewController {
 }
 
 extension SearchViewController: SearchViewInput {
-    func handleObtainedStocks(_ tickersList: [Ticker]) {
-        dataDisplayManager?.tickersList = tickersList
+    
+    func handleObtainedStock(_ stock: Stock) {
+        dataDisplayManager?.tickersList.append(stock)
+        stocksListTable.reloadData()
+    }
+    
+    func handleObtainedLookupList(_ lookupList: [Ticker]) {
+        dataDisplayManager?.tickersList.removeAll()
+        for index in 0..<lookupList.count {
+            dataDisplayManager?.tickersList.append(Stock(logo: "", name: lookupList[index].description, ticker: lookupList[index].displaySymbol))
+        }
         stocksListTable.reloadData()
     }
     
@@ -175,4 +194,16 @@ extension SearchViewController: SearchViewInput {
     func handleSearchBarTextEditing(_ isHidden: Bool) {
         searchView.isHidden = isHidden
     }
+    
+    func handleSearchBarCancel() {
+        dataDisplayManager?.tickersList.removeAll()
+        stocksListTable.reloadData()
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchView.isHidden = true
+        searchBar.resignFirstResponder()
+        searchBar.text = ""
+
+        output?.didResignSearchBar()
+    }
+    
 }

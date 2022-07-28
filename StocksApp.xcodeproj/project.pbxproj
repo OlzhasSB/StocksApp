@@ -247,8 +247,8 @@
 				31B98511288E948300E88E6F /* SearchViewController.swift */,
 				31A5E8B9289129550076BA18 /* SearchBarManager.swift */,
 				31B9851D288E94C100E88E6F /* SearchDataDisplayManager.swift */,
-				3140868B288EA0EF007FAFAA /* CategoryCell.swift */,
 				3140868D288EA963007FAFAA /* StockCell.swift */,
+				3140868B288EA0EF007FAFAA /* CategoryCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

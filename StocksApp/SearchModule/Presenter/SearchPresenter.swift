@@ -7,14 +7,14 @@
 
 import Foundation
 
-final class SearchPresenter: SearchViewOutput, SearchInteractorOutput {
+final class SearchPresenter: SearchViewOutput {
     
     weak var view: SearchViewInput!
     var interactor: SearchInteractorInput!
     var router: SearchRouterInput!
     
     func didLoadView() {
-        interactor.obtainStocksList()
+        interactor.obtainShortList()
     }
     
     func didTapSearchBar() {
@@ -22,11 +22,36 @@ final class SearchPresenter: SearchViewOutput, SearchInteractorOutput {
     }
     
     func didStartEditingSearchBar(_ text: String) {
-        let isHidden = interactor.shouldHideSearchView(text)
+        interactor.shouldHideSearchView(text)
+        interactor.lookupSymbol(text)
+    }
+    
+    func didTapCancelSearchBar() {
+        view.handleSearchBarCancel()
+    }
+    
+    func didResignSearchBar() {
+        interactor.obtainShortList()
+    }
+
+}
+
+extension SearchPresenter: SearchInteractorOutput {
+    
+    func hideSearchView(_ isHidden: Bool) {
         view.handleSearchBarTextEditing(isHidden)
     }
     
-    func didLoadStocksList(_ tickersList: [Ticker]) {
-        view.handleObtainedStocks(tickersList)
+    func didLoadShortList(_ shortList: [Ticker]) {
+        interactor.obtainStock(with: shortList)
     }
+    
+    func didLoadStock(_ stock: Stock) {
+        view.handleObtainedStock(stock)
+    }
+    
+    func didLoadLookupList(_ lookupList: [Ticker]) {
+        view.handleObtainedLookupList(lookupList)
+    }
+    
 }
