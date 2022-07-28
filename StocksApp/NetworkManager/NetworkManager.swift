@@ -12,7 +12,7 @@ protocol Networkable {
 }
 
 final class NetworkManager: Networkable {
-
+    
     private let API_KEY = "cbfqc1aad3ictm4bs4l0"
     static var shared = NetworkManager()
     
@@ -25,9 +25,9 @@ final class NetworkManager: Networkable {
         ]
         return components
     }()
-
+    
     private let session: URLSession
-
+    
     private init() {
         session = URLSession(configuration: .default)
     }
@@ -39,9 +39,9 @@ final class NetworkManager: Networkable {
         components.queryItems?.append(queryItem)
         
         guard let url = components.url else {
-//            DispatchQueue.main.async {
-                completion(.failure(.invalidURL))
-//            }
+            //            DispatchQueue.main.async {
+            completion(.failure(.invalidURL))
+            //            }
             return
         }
         
@@ -54,22 +54,16 @@ final class NetworkManager: Networkable {
         
         let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
-//                DispatchQueue.main.async {
-                    completion(.failure(.failedGET))
-//                }
+                completion(.failure(.failedGET))
                 return
             }
             guard let data = data else {
-//                DispatchQueue.main.async {
-                    completion(.failure(.dataNotFound))
-//                }
+                completion(.failure(.dataNotFound))
                 return
             }
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
-//                DispatchQueue.main.async {
-                    completion(.failure(.httpRequestFailed))
-                    print("my response is \(response)")
-                }
+                completion(.failure(.httpRequestFailed))
+                print("my response is \(response)")
                 return
             }
             
@@ -78,16 +72,9 @@ final class NetworkManager: Networkable {
                 DispatchQueue.main.async {
                     completion(.success(result))
                 }
-
+                
             } catch {
-                DispatchQueue.main.async {
-                    completion(.success(result))
-                }
-
-            } catch {
-//                DispatchQueue.main.async {
-                    completion(.failure(.decodingError))
-//                }
+                completion(.failure(.decodingError))
             }
         }
         task.resume()
