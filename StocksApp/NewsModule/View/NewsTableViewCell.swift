@@ -84,7 +84,11 @@ class NewsTableViewCell: UITableViewCell {
         sourceLabel.text = news.source
         headlinelabel.text = news.headline
         summaryLabel.text = news.summary
-        urlLabel.text = "View on website"
+        urlLabel.text = news.url
+//        "View on website"
+//        if let url = URL(string: news.url) {
+//            UIApplication.shared.open(url)
+//        }
     }
     
     func setUpConstraints(){

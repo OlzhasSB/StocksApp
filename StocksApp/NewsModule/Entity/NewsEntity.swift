@@ -11,7 +11,7 @@ struct News: Codable {
     var category: String
     var headline: String
     var image: String
-    var datetime: Int
+    var datetime: Date
     var source: String
     var summary: String
     var url: String
