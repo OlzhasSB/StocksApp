@@ -1,0 +1,24 @@
+PODS:
+  - HGPlaceholders (0.5.0)
+  - Kingfisher (7.3.0)
+  - SnapKit (5.6.0)
+
+DEPENDENCIES:
+  - HGPlaceholders
+  - Kingfisher (~> 7.0)
+  - SnapKit (~> 5.6.0)
+
+SPEC REPOS:
+  trunk:
+    - HGPlaceholders
+    - Kingfisher
+    - SnapKit
+
+SPEC CHECKSUMS:
+  HGPlaceholders: cbf8caed8360fc2ab5e8a4610cce61f76fbd2c37
+  Kingfisher: cdb1189a9223b1bc028816bd47c8b8101a58831c
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+
+PODFILE CHECKSUM: c8afdfbf93aedfa3771fe16cffee3bba13931703
+
+COCOAPODS: 1.11.3

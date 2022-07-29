@@ -48,7 +48,7 @@ final class SearchInteractor: SearchInteractorInput {
             
             switch result {
             case .success(let tickersList):
-                let shortList = Array(tickersList.prefix(5))
+                let shortList = Array(tickersList.prefix(20))
                 self?.output.didLoadShortList(shortList)
             case .failure(let error):
                 print(error.localizedDescription)

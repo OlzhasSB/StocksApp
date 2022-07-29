@@ -33,7 +33,10 @@ final class SearchPresenter: SearchViewOutput {
     func didResignSearchBar() {
         interactor.obtainShortList()
     }
-
+    
+    func didSelectTickerCell() {
+        router.openDetailsModule()
+    }
 }
 
 extension SearchPresenter: SearchInteractorOutput {

@@ -7,21 +7,24 @@
 
 import UIKit
 
+typealias CallBack = () -> Void
+
 class NewsTableViewCell: UITableViewCell {
 
+    var onWebsiteLinkButtonDidTap: CallBack?
+    
     // MARK: - UIImageView, UIView, UILabel
     
-    let newsImageView: UIImageView = {
+    private let newsImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleToFill
-        image.layer.cornerRadius = 35
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         image.layer.masksToBounds = true
         return image
     }()
 
-    let headlinelabel: UILabel = {
+    private let headlinelabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
         label.font = UIFont.boldSystemFont(ofSize: 25.0)
@@ -30,7 +33,7 @@ class NewsTableViewCell: UITableViewCell {
         return label
     }()
 
-    let datetimeLabel: UILabel = {
+    private let datetimeLabel: UILabel = {
          let label = UILabel()
          label.font = UIFont.systemFont(ofSize: 14)
          label.textColor = UIColor.darkGray
@@ -38,7 +41,7 @@ class NewsTableViewCell: UITableViewCell {
          return label
     }()
 
-    let sourceLabel: UILabel = {
+    private let sourceLabel: UILabel = {
          let label = UILabel()
          label.font = UIFont.systemFont(ofSize: 14)
          label.textColor = UIColor.darkGray
@@ -46,7 +49,7 @@ class NewsTableViewCell: UITableViewCell {
          return label
     }()
     
-    let summaryLabel: UILabel = {
+    private let summaryLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.darkGray
@@ -55,25 +58,21 @@ class NewsTableViewCell: UITableViewCell {
         return label
     }()
 
-    let urlLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.systemGray3
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        return label
+    private lazy var urlButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("View on website", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor.systemGray3, for: .normal)
+        button.addTarget(self, action: #selector(handleOpenUrl), for: .touchUpInside)
+        return button
     }()
-
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setUpConstraints()
      }
-
-    required init?(coder aDecoder: NSCoder) {
-       super.init(coder: aDecoder)
-    }
 
     // MARK: - Setup Constraints
 
@@ -84,11 +83,11 @@ class NewsTableViewCell: UITableViewCell {
         sourceLabel.text = news.source
         headlinelabel.text = news.headline
         summaryLabel.text = news.summary
-        urlLabel.text = news.url
-//        "View on website"
-//        if let url = URL(string: news.url) {
-//            UIApplication.shared.open(url)
-//        }
+    }
+    
+    @objc
+    func handleOpenUrl() {
+        onWebsiteLinkButtonDidTap?()
     }
     
     func setUpConstraints(){
@@ -127,13 +126,15 @@ class NewsTableViewCell: UITableViewCell {
             make.right.equalTo(headlinelabel.snp.right)
         }
 
-        contentView.addSubview(urlLabel)
-        urlLabel.snp.makeConstraints { make in
+        contentView.addSubview(urlButton)
+        urlButton.snp.makeConstraints { make in
             make.top.equalTo(summaryLabel.snp.bottom).offset(5)
             make.left.equalTo(newsImageView.snp.left)
-            make.right.equalTo(headlinelabel.snp.right)
-            make.bottom.equalTo(contentView).offset(-10)
+            make.bottom.equalTo(contentView).offset(-7)
         }
     }
-
+    
+    required init?(coder aDecoder: NSCoder) {
+       super.init(coder: aDecoder)
+    }
 }

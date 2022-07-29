@@ -13,7 +13,7 @@ protocol Networkable {
 
 final class NetworkManager: Networkable {
     
-    private let API_KEY = "cbfqc1aad3ictm4bs4l0"
+    private let API_KEY = "cbhmo5qad3i0blfg3s4g"
     static var shared = NetworkManager()
     
     private lazy var urlComponents: URLComponents = {
@@ -63,7 +63,7 @@ final class NetworkManager: Networkable {
             }
             guard let response = response as? HTTPURLResponse, (200 ..< 300) ~= response.statusCode else {
                 completion(.failure(.httpRequestFailed))
-                print("my response is \(response)")
+                print("my response is \(String(describing: response))")
                 return
             }
             

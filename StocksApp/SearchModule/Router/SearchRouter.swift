@@ -8,17 +8,18 @@
 import UIKit
 
 protocol SearchRouterInput {
-//    func openCastModule(with cast: PersonEntity)
+    func openDetailsModule()
 }
 
 final class SearchRouter: SearchRouterInput {
     weak var viewController: UIViewController?
     
-//    func openCastModule(with cast: PersonEntity) {
-//        // Create CastModuleAssembly
-//        let viewController = CastMemberModuleAssembly().assemble { (input) in
+    func openDetailsModule() {
+
+        let viewController = DetailsAssembly().assemle()
+//        { (input) in
 //            input.configure(with: cast)
 //        }
-//        self.viewController?.navigationController?.pushViewController(viewController, animated: true)
-//    }
+        self.viewController?.navigationController?.pushViewController(viewController, animated: true)
+    }
 }

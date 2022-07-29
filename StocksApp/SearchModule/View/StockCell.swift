@@ -10,7 +10,15 @@ import UIKit
 class StockCell: UITableViewCell {
     
     let companyName = UILabel()
-    let logo = UIImageView()
+    
+    private let logo: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleToFill
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.layer.cornerRadius = 5
+        image.layer.masksToBounds = true
+        return image
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,8 +33,12 @@ class StockCell: UITableViewCell {
     func setUp(with stock: Stock) {
         companyName.text = stock.name
         
-        let url = URL(string: stock.logo)
-        logo.kf.setImage(with: url)
+        if stock.logo != "" {
+            let url = URL(string: stock.logo)
+            logo.kf.setImage(with: url)
+        } else {
+            logo.image = UIImage(named: "default.jpeg")
+        }
     }
     
     private func makeConstraints() {
