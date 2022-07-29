@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import Kingfisher
 
 class StockCell: UITableViewCell {
     
-    let companyName = UILabel()
+    let nameLabel = UILabel()
     
-    private let logo: UIImageView = {
+    private let logoImageVIew: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleToFill
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -33,17 +34,17 @@ class StockCell: UITableViewCell {
     func setUp(with stock: Stock) {
         nameLabel.text = stock.profile?.name
         
-        if stock.logo != "" {
-            let url = URL(string: stock.logo)
-            logo.kf.setImage(with: url)
+        if let logo = stock.profile?.logo, logo != "" {
+            let url = URL(string: logo)
+            self.logoImageVIew.kf.setImage(with: url)
         } else {
-            logo.image = UIImage(named: "default.jpeg")
+            logoImageVIew.image = UIImage(named: "default.jpeg")
         }
     }
     
     private func makeConstraints() {
-        contentView.addSubview(logoImageView)
-        logoImageView.snp.makeConstraints { make in
+        contentView.addSubview(logoImageVIew)
+        logoImageVIew.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(16)
             make.bottom.equalTo(contentView).offset(-16)
             make.leading.equalTo(contentView).offset(30)
@@ -52,7 +53,7 @@ class StockCell: UITableViewCell {
         
         contentView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { make in
-            make.leading.equalTo(logoImageView.snp.trailing).offset(30)
+            make.leading.equalTo(logoImageVIew.snp.trailing).offset(30)
             make.centerY.equalTo(contentView)
         }
     }
