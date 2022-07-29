@@ -28,7 +28,13 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsCategoryCollectionViewCell", for: indexPath) as! NewsCategoryCollectionViewCell
         cell.categorylabel.text = categories[indexPath.row].category
-        cell.backgroundColor = .systemGray6
+        
+//        if categories[indexPath.row].category == "All" {
+//            cell.backgroundColor = .black
+//            cell.categorylabel.textColor = .white
+//        } else {
+            cell.backgroundColor = .systemGray6
+//        }
         cell.layer.cornerRadius = 17
         cell.layer.masksToBounds = true
         return cell
