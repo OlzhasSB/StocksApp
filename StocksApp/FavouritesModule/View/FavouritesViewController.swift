@@ -19,7 +19,8 @@ class FavouritesViewController: UIViewController {
     
     var output: FavouritesViewOutput?
     var dataDisplayManager: FavouritesDataDisplayManager?
-
+    var activityView: UIActivityIndicatorView?
+    
     private let favouriteLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black

@@ -22,6 +22,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
     var stocksList: [Stock] = []
     
     var onTickerDidSelect: (() -> Void)?
+    var stocksIsEmpty: (() -> Void)?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
