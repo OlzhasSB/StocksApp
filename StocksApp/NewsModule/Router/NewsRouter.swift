@@ -8,19 +8,17 @@
 import UIKit
 
 protocol NewsRouterInput {
-//    func openNewsDetailsModule(with newsId: Int)
+    func openNewsWebsite(with url: String)
 }
 
 final class NewsRouter: NewsRouterInput {
     
     weak var viewController: UIViewController?
     
-//    func openNewsDetailsModule(with newsId: Int) {
+    func openNewsWebsite(with url: String) {
         
-//        let movieDetailViewController = NewsDetailsModuleAssembly().assemle() { [weak self] input in
-//
-//            input.configure(with: movieId)
-//        }
-//        viewController?.navigationController?.pushViewController(movieDetailViewController, animated: true)
-//    }
+        if let url = URL(string: url) {
+            UIApplication.shared.open(url)
+        }
+    }
 }

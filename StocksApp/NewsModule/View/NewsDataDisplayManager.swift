@@ -9,12 +9,14 @@ import Foundation
 import UIKit
 import Kingfisher
 
+
 final class NewsDataDisplayManager: NSObject {
     
     var categories: [NewsCategoriesEntity] = []
     var news: [News] = []
     
     var onCategoryDidSelect: ((String) -> Void)?
+    var onNewsUrlDidSelect: ((String) -> Void)?
 }
 
 extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -72,7 +74,12 @@ extension NewsDataDisplayManager: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath) as! NewsTableViewCell
         cell.configure(with: news[indexPath.row])
-        
+        cell.selectionStyle = .none
+        cell.onWebsiteLinkButtonDidTap = { [weak self] in
+            guard let self = self else { return }
+
+            self.onNewsUrlDidSelect?(self.news[indexPath.row].url)
+        }
         return cell
     }
 }

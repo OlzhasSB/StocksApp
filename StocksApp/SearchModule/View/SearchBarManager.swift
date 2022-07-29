@@ -34,5 +34,4 @@ final class SearchBarManager: NSObject, UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         onSearchBarCancelTapped?()
     }
-    
 }

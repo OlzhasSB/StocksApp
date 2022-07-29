@@ -22,15 +22,10 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setUpConstraints()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: - Setup Constraints
 
     func setUpConstraints(){
-        
         
         contentView.addSubview(categorylabel)
         categorylabel.snp.makeConstraints { make in
@@ -39,5 +34,9 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
             make.right.equalTo(contentView.snp.right).offset(-10)
             make.bottom.equalTo(contentView).offset(-2)
         }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

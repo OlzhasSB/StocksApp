@@ -22,8 +22,10 @@ class FavouritesViewController: UIViewController {
 
     private let favouriteLabel: UILabel = {
         let label = UILabel()
-        label.text = "Favourite"
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.textColor = UIColor.black
+        label.text = "Favourites"
+        label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private let favouriteStocksTable: UITableView = {

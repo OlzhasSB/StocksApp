@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1C35D74C28911C3300088D17 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 1C35D74B28911C3300088D17 /* Kingfisher */; };
-		1C64252A288FD08C00211DB6 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 1C642529288FD08C00211DB6 /* SnapKit */; };
 		1C642533288FD55000211DB6 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C642532288FD55000211DB6 /* DetailsViewController.swift */; };
 		1C642535288FD56600211DB6 /* DetailsDataDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C642534288FD56600211DB6 /* DetailsDataDisplayManager.swift */; };
 		1C642538288FD59300211DB6 /* DetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C642537288FD59300211DB6 /* DetailsPresenter.swift */; };
@@ -51,6 +49,7 @@
 		31B9852E288E953200E88E6F /* FavouritesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B9852D288E953200E88E6F /* FavouritesRouter.swift */; };
 		31B98530288E953900E88E6F /* FavouritesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B9852F288E953900E88E6F /* FavouritesAssembly.swift */; };
 		31B98532288E954000E88E6F /* FavouritesDataDisplayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31B98531288E954000E88E6F /* FavouritesDataDisplayManager.swift */; };
+		34154E6F11FA95842963489D /* Pods_StocksApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661888A2D666FA63967EB144 /* Pods_StocksApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +97,9 @@
 		31B9852D288E953200E88E6F /* FavouritesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesRouter.swift; sourceTree = "<group>"; };
 		31B9852F288E953900E88E6F /* FavouritesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesAssembly.swift; sourceTree = "<group>"; };
 		31B98531288E954000E88E6F /* FavouritesDataDisplayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesDataDisplayManager.swift; sourceTree = "<group>"; };
+		661888A2D666FA63967EB144 /* Pods_StocksApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StocksApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		70BB0CD9858B662A9A6AFBD0 /* Pods-StocksApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StocksApp.debug.xcconfig"; path = "Target Support Files/Pods-StocksApp/Pods-StocksApp.debug.xcconfig"; sourceTree = "<group>"; };
+		B2B0CC462BA94B50FD71E0A4 /* Pods-StocksApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StocksApp.release.xcconfig"; path = "Target Support Files/Pods-StocksApp/Pods-StocksApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,8 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C35D74C28911C3300088D17 /* Kingfisher in Frameworks */,
-				1C64252A288FD08C00211DB6 /* SnapKit in Frameworks */,
+				34154E6F11FA95842963489D /* Pods_StocksApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +343,8 @@
 			children = (
 				31B984F1288E918D00E88E6F /* StocksApp */,
 				31B984F0288E918D00E88E6F /* Products */,
+				F47C1AF3BFBC7AF487062301 /* Pods */,
+				B9011909BCADDDBFEC7371FA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -419,6 +422,23 @@
 			path = NewsModule;
 			sourceTree = "<group>";
 		};
+		B9011909BCADDDBFEC7371FA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				661888A2D666FA63967EB144 /* Pods_StocksApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F47C1AF3BFBC7AF487062301 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				70BB0CD9858B662A9A6AFBD0 /* Pods-StocksApp.debug.xcconfig */,
+				B2B0CC462BA94B50FD71E0A4 /* Pods-StocksApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -426,9 +446,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 31B98506288E918D00E88E6F /* Build configuration list for PBXNativeTarget "StocksApp" */;
 			buildPhases = (
+				CE59C4D37CD56B2C6883A1D6 /* [CP] Check Pods Manifest.lock */,
 				31B984EB288E918C00E88E6F /* Sources */,
 				31B984EC288E918C00E88E6F /* Frameworks */,
 				31B984ED288E918C00E88E6F /* Resources */,
+				105AECE5E77EED853F0454EC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -436,8 +458,6 @@
 			);
 			name = StocksApp;
 			packageProductDependencies = (
-				1C642529288FD08C00211DB6 /* SnapKit */,
-				1C35D74B28911C3300088D17 /* Kingfisher */,
 			);
 			productName = StocksApp;
 			productReference = 31B984EF288E918D00E88E6F /* StocksApp.app */;
@@ -468,8 +488,6 @@
 			);
 			mainGroup = 31B984E6288E918C00E88E6F;
 			packageReferences = (
-				1C642528288FD08C00211DB6 /* XCRemoteSwiftPackageReference "SnapKit" */,
-				1C35D74A28911C3300088D17 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 31B984F0288E918D00E88E6F /* Products */;
 			projectDirPath = "";
@@ -491,6 +509,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		105AECE5E77EED853F0454EC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StocksApp/Pods-StocksApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StocksApp/Pods-StocksApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StocksApp/Pods-StocksApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CE59C4D37CD56B2C6883A1D6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StocksApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		31B984EB288E918C00E88E6F /* Sources */ = {
@@ -670,6 +730,7 @@
 		};
 		31B98507288E918D00E88E6F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70BB0CD9858B662A9A6AFBD0 /* Pods-StocksApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -696,6 +757,7 @@
 		};
 		31B98508288E918D00E88E6F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2B0CC462BA94B50FD71E0A4 /* Pods-StocksApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -742,38 +804,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		1C35D74A28911C3300088D17 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
-		1C642528288FD08C00211DB6 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		1C35D74B28911C3300088D17 /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1C35D74A28911C3300088D17 /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-		1C642529288FD08C00211DB6 /* SnapKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1C642528288FD08C00211DB6 /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		31B984FB288E918D00E88E6F /* StocksApp.xcdatamodeld */ = {

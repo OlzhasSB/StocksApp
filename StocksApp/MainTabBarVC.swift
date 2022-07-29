@@ -15,8 +15,8 @@ class MainTabBarVC: UITabBarController {
         UIImage(systemName: "star.fill")!,
         UIImage(systemName: "newspaper")!
     ]
-    
-    private var searchVC = SearchModuleAssembly().assemble()
+
+    private var searchVC = UINavigationController(rootViewController: SearchModuleAssembly().assemble())
     private var favouritesVC = FavouritesModuleAssembly().assemble()
     private var newsVC = NewsModuleAssembly().assemle()
     

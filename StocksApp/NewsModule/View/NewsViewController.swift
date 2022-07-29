@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import HGPlaceholders
 
 protocol NewsViewInput: AnyObject {
     func hundleObtainedNewsCategories(_ categories: [NewsCategoriesEntity])
@@ -15,6 +16,7 @@ protocol NewsViewInput: AnyObject {
 protocol NewsViewOutput {
     func didLoadView()
     func didSelectCategoryCell(with category: String)
+    func didSelectNewsUrlCell(with url: String)
 }
 
 class NewsViewController: UIViewController {
@@ -43,8 +45,8 @@ class NewsViewController: UIViewController {
         return collection
     }()
     
-    private let newsTableView: UITableView = {
-        let table = UITableView()
+    private let newsTableView: TableView = {
+        let table = TableView()
         table.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
         table.showsVerticalScrollIndicator = false
         return table
@@ -64,18 +66,23 @@ class NewsViewController: UIViewController {
             self?.output?.didSelectCategoryCell(with: category)
         }
         
+        dataDisplayManager?.onNewsUrlDidSelect = { [ weak self] url in
+            self?.output?.didSelectNewsUrlCell(with: url)
+        }
+        
         categoriesCollectionView.delegate = dataDisplayManager
         categoriesCollectionView.dataSource = dataDisplayManager
         
         newsTableView.delegate = dataDisplayManager
         newsTableView.dataSource = dataDisplayManager
+        newsTableView.showLoadingPlaceholder()
     }
     
     private func makeConstraints() {
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(12)
             make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
             make.height.equalTo(50)
@@ -109,3 +116,4 @@ extension NewsViewController: NewsViewInput {
     }
     
 }
+

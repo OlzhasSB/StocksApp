@@ -21,6 +21,8 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
     ]
     var stocksList: [Stock] = []
     
+    var onTickerDidSelect: (() -> Void)?
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
     }
@@ -28,9 +30,13 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
         cell.setUp(with: stocksList[indexPath.row])
+        cell.selectionStyle = .none
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        onTickerDidSelect?()
+    }
 }
 
 extension SearchDataDisplayManager: UICollectionViewDelegate, UICollectionViewDataSource {

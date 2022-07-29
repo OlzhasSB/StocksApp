@@ -7,8 +7,6 @@
 
 import UIKit
 
-typealias NewsModuleConfiguration = () -> Void
-
 final class NewsModuleAssembly {
     
     func assemle() -> UIViewController {

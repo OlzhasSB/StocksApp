@@ -15,6 +15,7 @@ protocol SearchViewOutput {
     func didStartEditingSearchBar(_ text: String)
     func didTapCancelSearchBar()
     func didResignSearchBar()
+    func didSelectTickerCell()
 }
 
 protocol SearchViewInput: AnyObject {
@@ -31,8 +32,10 @@ class SearchViewController: UIViewController {
      
     private let searchLabel: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor.black
         label.text = "Search"
-        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.font = UIFont.boldSystemFont(ofSize: 30.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     private let searchBar: UISearchBar = {
@@ -44,6 +47,7 @@ class SearchViewController: UIViewController {
     private let stocksTable: UITableView = {
         let table = UITableView()
         table.register(StockCell.self, forCellReuseIdentifier: "stockCell")
+        table.showsVerticalScrollIndicator = false
         return table
     }()
     
@@ -88,6 +92,7 @@ class SearchViewController: UIViewController {
         return collection
     }()
     
+    
     var output: SearchViewOutput?
     var dataDisplayManager: SearchDataDisplayManager?
     var searchBarManager: SearchBarManager?
@@ -99,9 +104,15 @@ class SearchViewController: UIViewController {
         configureTableCollectionViews()
         configureSearchBar()
         makeConstraints()
+        setUpNaviagtionController()
     }
     
     private func configureTableCollectionViews() {
+        
+        dataDisplayManager?.onTickerDidSelect = { [weak self] in
+            self?.output?.didSelectTickerCell()
+        }
+        
         categoriesCollection.delegate = dataDisplayManager
         categoriesCollection.dataSource = dataDisplayManager
         
@@ -122,10 +133,21 @@ class SearchViewController: UIViewController {
         }
     }
     
+    // MARK: - Setup NavigationController
+    
+    func setUpNaviagtionController() {
+        navigationItem.title = ""
+        self.navigationController?.view.backgroundColor = .white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+    }
+    
+    // MARK: - Constraints
+    
     private func makeConstraints() {
         view.addSubview(searchLabel)
         searchLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide).offset(16)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(-27)
+            make.leading.trailing.equalTo(view.safeAreaLayoutGuide).offset(16)
         }
         
         view.addSubview(searchBar)
