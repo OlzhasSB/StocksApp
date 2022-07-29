@@ -9,7 +9,8 @@ import Foundation
 
 struct Stock {
     let profile: Profile?
-    let candle: Candle?
+    let quote: Quote?
+    let isFavourite: Bool?
 }
 
 struct Profile: Decodable {
@@ -30,4 +31,14 @@ struct Candle: Decodable {
     let t: [Double]?
     let v: [Double]?
     let error: String?
+}
+
+struct Quote: Decodable {
+    let c: Double
+    let d: Double
+    var dp: Double
+    let h: Double
+    let l: Double
+    let o: Double
+    let pc: Double
 }

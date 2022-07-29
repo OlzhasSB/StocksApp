@@ -11,18 +11,16 @@ import NVActivityIndicatorView
 
 protocol SearchViewOutput {
     func didLoadView()
+    func didSelectTickerCell()
+    func didTapFavourite(at stock: Stock)
     
     func didTapSearchBar()
     func didStartEditingSearchBar(_ text: String)
     func didTapCancelSearchBar()
     func didResignSearchBar()
-    func didSelectTickerCell()
 }
 
 protocol SearchViewInput: AnyObject {
-//    func handleObtainedStock(_ stock: Profile)
-//    func handleObtainedLookupList(_ lookupList: [Ticker])
-//    func handleObtainedCandle(_ candle: Candle)
     func handleObtainedStocksList(_ stocksList: [Stock])
     
     func handleSearchBarTap()
@@ -50,9 +48,10 @@ class SearchViewController: UIViewController {
         let table = UITableView()
         table.register(StockCell.self, forCellReuseIdentifier: "stockCell")
         table.showsVerticalScrollIndicator = false
+        table.separatorStyle = .none
         return table
     }()
-    
+
     private let searchView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray5
@@ -127,22 +126,22 @@ class SearchViewController: UIViewController {
     // MARK: - Configure TableView
     
     private func configureTableCollectionViews() {
+        stocksTable.delegate = dataDisplayManager
+        stocksTable.dataSource = dataDisplayManager
         
         dataDisplayManager?.onTickerDidSelect = { [weak self] in
             self?.output?.didSelectTickerCell()
         }
-        
-        categoriesCollection.delegate = dataDisplayManager
-        categoriesCollection.dataSource = dataDisplayManager
-        
-        stocksTable.delegate = dataDisplayManager
-        stocksTable.dataSource = dataDisplayManager
+        dataDisplayManager?.onFavouriteDidTap = { [weak self] stock in
+            self?.output?.didTapFavourite(at: stock)
+        }
     }
     
     // MARK: - Configure SearchBar
     
     private func configureSearchBar() {
         searchBar.delegate = searchBarManager
+        
         searchBarManager?.onSearchBarTapped = { [weak self] in
             self?.output?.didTapSearchBar()
         }
@@ -154,6 +153,16 @@ class SearchViewController: UIViewController {
         }
     }
     
+    func handleSearchBarTextEditing(_ text: String) {
+        let isHidden: Bool
+        if text == "" {
+            isHidden = false
+        } else {
+            output?.didStartEditingSearchBar(text)
+            isHidden = true
+        }
+        searchView.isHidden = isHidden
+    }
     // MARK: - SetUp Activity Indicator
     
     func setUpActivityIndicator() {
@@ -169,7 +178,6 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - Constraints
-    
     private func makeConstraints() {
         view.addSubview(searchLabel)
         searchLabel.snp.makeConstraints { make in
@@ -196,22 +204,9 @@ class SearchViewController: UIViewController {
             make.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        searchView.addSubview(categoriesLabel)
-        categoriesLabel.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(searchView).offset(16)
-        }
-        
-        searchView.addSubview(categoriesCollection)
-        categoriesCollection.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(searchView)
-            make.top.equalTo(categoriesLabel.snp.bottom)
-            make.height.equalTo(150)
-        }
-        
         searchView.addSubview(historyLabel)
         historyLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(searchView).offset(16)
-            make.top.equalTo(categoriesCollection.snp.bottom)
+            make.top.leading.trailing.equalTo(searchView).offset(16)
         }
         
         searchView.addSubview(historyCollection)
@@ -227,38 +222,9 @@ class SearchViewController: UIViewController {
 //        }
     }
     
-    func handleSearchBarTextEditing(_ text: String) {
-        let isHidden: Bool
-        if text == "" {
-            isHidden = false
-        } else {
-            output?.didStartEditingSearchBar(text)
-            isHidden = true
-        }
-        searchView.isHidden = isHidden
-    }
-
 }
 
 extension SearchViewController: SearchViewInput {
-    
-//    func handleObtainedStock(_ stock: Profile) {
-//
-//        dataDisplayManager?.tickersList.append(stock)
-//        stocksListTable.reloadData()
-//    }
-//
-//    func handleObtainedLookupList(_ lookupList: [Ticker]) {
-//        dataDisplayManager?.tickersList.removeAll()
-//        for index in 0..<lookupList.count {
-//            dataDisplayManager?.tickersList.append(Profile(logo: "", name: lookupList[index].description, ticker: lookupList[index].displaySymbol))
-//        }
-//        stocksListTable.reloadData()
-//    }
-    
-//    func handleObtainedCandle(_ candle: Candle) {
-//
-//    }
     
     func handleObtainedStocksList(_ stocksList: [Stock]) {
         dataDisplayManager?.stocksList.removeAll()
@@ -268,6 +234,8 @@ extension SearchViewController: SearchViewInput {
     
     func handleSearchBarTap() {
         searchView.isHidden = false
+        dataDisplayManager?.stocksList.removeAll()
+        stocksTable.reloadData()
         searchBar.setShowsCancelButton(true, animated: true)
     }
     

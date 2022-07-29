@@ -58,6 +58,7 @@ class NewsViewController: UIViewController {
         setUpTableCollectionViews()
         makeConstraints()
         output?.didLoadView()
+        newsTableView.isHidden = true
     }
     
     private func setUpTableCollectionViews() {
