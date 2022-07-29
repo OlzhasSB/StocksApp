@@ -17,7 +17,6 @@ final class SearchBarManager: NSObject, UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         lastScheduledSearch?.invalidate()
-        
         lastScheduledSearch = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(startSearching(timer:)), userInfo: searchText, repeats: false)
     }
     

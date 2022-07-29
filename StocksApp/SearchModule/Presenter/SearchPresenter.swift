@@ -36,25 +36,14 @@ final class SearchPresenter: SearchViewOutput {
     func didSelectTickerCell() {
         router.openDetailsModule()
     }
+    
+    func didTapFavourite(at stock: Stock) {
+        // Check if stock is favourite
+        print(stock.profile?.name ?? "")
+    }
 }
 
 extension SearchPresenter: SearchInteractorOutput {
-    
-//    func didLoadShortList(_ shortList: [Ticker]) {
-//        interactor.obtainProfile(with: shortList)
-//    }
-//
-//    func didLoadStock(_ stock: Profile) {
-//        view.handleObtainedStock(stock)
-//    }
-//
-//    func didLoadLookupList(_ lookupList: [Ticker]) {
-//        view.handleObtainedLookupList(lookupList)
-//    }
-//
-//    func didLoadCandle(_ candle: Candle) {
-//
-//    }
     
     func didLoadStocksList(_ stocksList: [Stock]) {
         view.handleObtainedStocksList(stocksList)

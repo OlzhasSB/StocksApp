@@ -10,15 +10,9 @@ import Foundation
 protocol SearchInteractorInput {
     func obtainStocksList()
     func obtainLookupList(_ symbol: String)
-//    func obtainProfile(with list: [Ticker])
-//    func obtainCandle(with profileList: [Profile])
 }
 
 protocol SearchInteractorOutput: AnyObject {
-//    func didLoadShortList(_ shortList: [Ticker])
-//    func didLoadStock(_ stock: Profile)
-//    func didLoadLookupList(_ lookupList: [Ticker])
-//    func didLoadCandle(_ candle: Candle)
     func didLoadStocksList(_ stocksList: [Stock])
 }
 
@@ -41,7 +35,6 @@ final class SearchInteractor: SearchInteractorInput {
             switch result {
             case .success(let tickersList):
                 let shortList = Array(tickersList.prefix(10))
-//                self?.output.didLoadShortList(shortList)
                 self?.obtainProfile(with: shortList)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -55,7 +48,6 @@ final class SearchInteractor: SearchInteractorInput {
         networkManager.fetchData(path: "/api/v1/search", queryItems: queryItem) { [weak self] (result : Result <LookupEntity, APINetworkError>) in
             switch result {
             case .success(let list):
-//                self?.output.didLoadLookupList(lookupList.result)
                 let lookupList = Array(list.result.prefix(10))
                 self?.obtainProfile(with: lookupList)
             case .failure(let error):
@@ -75,7 +67,6 @@ final class SearchInteractor: SearchInteractorInput {
             networkManager.fetchData(path: "/api/v1/stock/profile2", queryItems: queryItem) { (result : Result <Profile, APINetworkError>) in
                 switch result {
                 case .success(let profile):
-//                    self?.output?.didLoadStock(stock)
                     profileList.append(profile)
                     group.leave()
                 
@@ -86,34 +77,27 @@ final class SearchInteractor: SearchInteractorInput {
             }
         }
         group.notify(queue: .main) {
-            self.obtainCandle(with: profileList)
+            self.obtainQuote(with: profileList)
+                              
         }
     }
     
-    func obtainCandle(with profileList: [Profile]) {
-        
+    func obtainQuote(with profileList: [Profile]) {
         var stocksList: [Stock] = []
-        
-        let currentTime = 1631627048
-//        Int(NSDate().timeIntervalSince1970) - 60*60
-        let fromTime = 1631022248
+
         let group = DispatchGroup.init()
         
         for index in 0..<profileList.count {
             let queryItem = [
-                URLQueryItem(name: "symbol", value: profileList[index].ticker),
-                URLQueryItem(name: "resolution", value: "1"),
-                URLQueryItem(name: "from", value: String(fromTime)),
-                URLQueryItem(name: "to", value: String(currentTime))
+                URLQueryItem(name: "symbol", value: profileList[index].ticker)
             ]
             
             group.enter()
-            networkManager.fetchData(path: "/api/v1/stock/candle", queryItems: queryItem) { (result : Result <Candle, APINetworkError>) in
+            networkManager.fetchData(path: "/api/v1/quote", queryItems: queryItem) { (result : Result <Quote, APINetworkError>) in
                 switch result {
-                case .success(let candle):
-//                    self?.output.didLoadCandle(candle)
-                    
-                    let stock = Stock(profile: profileList[index], candle: candle)
+                case .success(var quote):
+                    quote.dp = round(quote.dp * 100)/100
+                    let stock = Stock(profile: profileList[index], quote: quote, isFavourite: Bool())
                     stocksList.append(stock)
                     group.leave()
                 case .failure(let error):
@@ -125,6 +109,16 @@ final class SearchInteractor: SearchInteractorInput {
         group.notify(queue: .main) {
             self.output.didLoadStocksList(stocksList)
         }
+    }
+    
+    func getPriceData(with quote: Quote) -> (Double, Double, Double) {
+        
+        let currentPrice = quote.c
+        let change = round(quote.c - quote.o * 100) / 100.0
+        let changePercent = round(change/quote.o * 100 * 100) / 100.0
+        
+        let priceData = (currentPrice, change, changePercent)
+        return priceData
     }
     
 

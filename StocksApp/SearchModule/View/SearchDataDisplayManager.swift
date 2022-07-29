@@ -9,28 +9,33 @@ import UIKit
 
 final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableViewDataSource {
     
-    var categories = [
-        "Undervalued Growth Stocks",
-        "Growth Technology Stocks",
-        "Day Gainers",
-        "Day Losers",
-        "Most Actives",
-        "Undervalued Large Caps",
-        "Aggressive Small Caps",
-        "Small Cap Gainers"
-    ]
     var stocksList: [Stock] = []
+    var lastSearch: [String] = []
     
     var onTickerDidSelect: (() -> Void)?
+    var onFavouriteDidTap: ((Stock) -> Void)?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
         cell.setUp(with: stocksList[indexPath.row])
+        
         cell.selectionStyle = .none
+        if indexPath.row % 2 == 0 {
+            cell.cellView.backgroundColor = .systemGray5
+        } else {
+            cell.cellView.backgroundColor = .white
+        }
+        
+        cell.onFavouriteDidTap = { [weak self] in
+            guard let self = self else { return }
+            self.onFavouriteDidTap?(self.stocksList[indexPath.row])
+        }
+        
         return cell
     }
     
@@ -42,7 +47,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
 extension SearchDataDisplayManager: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categories.count
+        return lastSearch.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
