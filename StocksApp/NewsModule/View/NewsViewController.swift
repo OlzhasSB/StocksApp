@@ -75,7 +75,6 @@ class NewsViewController: UIViewController {
         
         newsTableView.delegate = dataDisplayManager
         newsTableView.dataSource = dataDisplayManager
-        newsTableView.showLoadingPlaceholder()
     }
     
     private func makeConstraints() {
@@ -112,6 +111,7 @@ extension NewsViewController: NewsViewInput {
     
     func hundleObtainedNews(_ news: [News]) {
         dataDisplayManager?.news = news
+        newsTableView.isHidden = false
         newsTableView.reloadData()
     }
     
