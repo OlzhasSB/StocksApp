@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import NVActivityIndicatorView
 
 protocol SearchViewOutput {
     func didLoadView()
@@ -36,6 +37,7 @@ class SearchViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
     private let searchBar: UISearchBar = {
         let bar = UISearchBar()
         bar.backgroundImage = UIImage()
@@ -56,12 +58,33 @@ class SearchViewController: UIViewController {
         view.isHidden = true
         return view
     }()
+    
+    private let categoriesLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Explore categories:"
+        label.font = UIFont.boldSystemFont(ofSize: 22)
+        return label
+    }()
+    
+    private let categoriesCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 25, height: 40)
+        layout.minimumLineSpacing = 1
+    
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.register(CategoryCell.self, forCellWithReuseIdentifier: "categoryCell")
+        collection.isHidden = true
+        return collection
+    }()
+    
     private let historyLabel: UILabel = {
         let label = UILabel()
         label.text = "You've searched for this:"
         label.font = UIFont.boldSystemFont(ofSize: 22)
         return label
     }()
+    
     private let historyCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -74,19 +97,33 @@ class SearchViewController: UIViewController {
         return collection
     }()
     
+    var activityIndicator : NVActivityIndicatorView!
+    
     var output: SearchViewOutput?
     var dataDisplayManager: SearchDataDisplayManager?
     var searchBarManager: SearchBarManager?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         output?.didLoadView()
         
+        setUpNaviagtionController()
+        setUpActivityIndicator()
         configureTableCollectionViews()
         configureSearchBar()
         makeConstraints()
-        setUpNaviagtionController()
     }
+    
+    // MARK: - SetUp NavigationController
+    
+    func setUpNaviagtionController() {
+        navigationItem.title = ""
+        self.navigationController?.view.backgroundColor = .white
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+    }
+    
+    // MARK: - Configure TableView
     
     private func configureTableCollectionViews() {
         stocksTable.delegate = dataDisplayManager
@@ -99,6 +136,8 @@ class SearchViewController: UIViewController {
             self?.output?.didTapFavourite(at: stock)
         }
     }
+    
+    // MARK: - Configure SearchBar
     
     private func configureSearchBar() {
         searchBar.delegate = searchBarManager
@@ -124,12 +163,18 @@ class SearchViewController: UIViewController {
         }
         searchView.isHidden = isHidden
     }
+    // MARK: - SetUp Activity Indicator
     
-    // MARK: - Setup NavigationController
-    func setUpNaviagtionController() {
-        navigationItem.title = ""
-        self.navigationController?.view.backgroundColor = .white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+    func setUpActivityIndicator() {
+//        dataDisplayManager?.stocksIsEmpty = {
+//        if ((dataDisplayManager?.stocksList.isEmpty) != nil) {
+//            activityIndicator.type = .ballBeat
+//            activityIndicator.startAnimating()
+//            
+//        } else {
+//            activityIndicator.stopAnimating()
+//        }
+//        }
     }
     
     // MARK: - Constraints
@@ -168,6 +213,12 @@ class SearchViewController: UIViewController {
         historyCollection.snp.makeConstraints { make in
             make.leading.trailing.equalTo(searchView)
             make.top.equalTo(historyLabel.snp.bottom)
+        }
+        
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.equalTo(stocksTable.snp.centerX)
+            make.centerY.equalTo(stocksTable.snp.centerY)
         }
     }
     
