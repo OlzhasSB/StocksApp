@@ -8,14 +8,14 @@
 import UIKit
 
 protocol FavouritesRouterInput {
-    func openDetailsModule(with stock: Stock)
+    func openDetailsModule(with stock: Profile)
 }
 
 final class FavouritesRouter: FavouritesRouterInput {
 
     weak var viewController: UIViewController?
     
-    func openDetailsModule(with stock: Stock) {
+    func openDetailsModule(with stock: Profile) {
     
     }
     

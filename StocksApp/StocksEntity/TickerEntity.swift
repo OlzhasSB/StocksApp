@@ -7,17 +7,11 @@
 
 import Foundation
 
-struct Ticker: Decodable {
-    let description: String
-    let displaySymbol: String
-}
-
 struct LookupEntity: Decodable {
     let result: [Ticker]
 }
 
-struct Stock: Decodable {
-    let logo: String
-    let name: String
-    let ticker: String
+struct Ticker: Decodable {
+    let description: String
+    let displaySymbol: String
 }

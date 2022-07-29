@@ -14,7 +14,7 @@ final class SearchPresenter: SearchViewOutput {
     var router: SearchRouterInput!
     
     func didLoadView() {
-        interactor.obtainShortList()
+        interactor.obtainStocksList()
     }
     
     func didTapSearchBar() {
@@ -22,8 +22,7 @@ final class SearchPresenter: SearchViewOutput {
     }
     
     func didStartEditingSearchBar(_ text: String) {
-        interactor.shouldHideSearchView(text)
-        interactor.lookupSymbol(text)
+        interactor.obtainLookupList(text)
     }
     
     func didTapCancelSearchBar() {
@@ -31,27 +30,31 @@ final class SearchPresenter: SearchViewOutput {
     }
     
     func didResignSearchBar() {
-        interactor.obtainShortList()
+        interactor.obtainStocksList()
     }
 
 }
 
 extension SearchPresenter: SearchInteractorOutput {
     
-    func hideSearchView(_ isHidden: Bool) {
-        view.handleSearchBarTextEditing(isHidden)
-    }
+//    func didLoadShortList(_ shortList: [Ticker]) {
+//        interactor.obtainProfile(with: shortList)
+//    }
+//
+//    func didLoadStock(_ stock: Profile) {
+//        view.handleObtainedStock(stock)
+//    }
+//
+//    func didLoadLookupList(_ lookupList: [Ticker]) {
+//        view.handleObtainedLookupList(lookupList)
+//    }
+//
+//    func didLoadCandle(_ candle: Candle) {
+//
+//    }
     
-    func didLoadShortList(_ shortList: [Ticker]) {
-        interactor.obtainStock(with: shortList)
-    }
-    
-    func didLoadStock(_ stock: Stock) {
-        view.handleObtainedStock(stock)
-    }
-    
-    func didLoadLookupList(_ lookupList: [Ticker]) {
-        view.handleObtainedLookupList(lookupList)
+    func didLoadStocksList(_ stocksList: [Stock]) {
+        view.handleObtainedStocksList(stocksList)
     }
     
 }
