@@ -215,11 +215,11 @@ class SearchViewController: UIViewController {
             make.top.equalTo(historyLabel.snp.bottom)
         }
         
-        view.addSubview(activityIndicator)
-        activityIndicator.snp.makeConstraints { make in
-            make.centerX.equalTo(stocksTable.snp.centerX)
-            make.centerY.equalTo(stocksTable.snp.centerY)
-        }
+//        view.addSubview(activityIndicator)
+//        activityIndicator.snp.makeConstraints { make in
+//            make.centerX.equalTo(stocksTable.snp.centerX)
+//            make.centerY.equalTo(stocksTable.snp.centerY)
+//        }
     }
     
 }
