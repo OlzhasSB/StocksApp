@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Networkable {
-    func fetchData<T: Decodable>(path: String, queryItem: URLQueryItem, completion: @escaping (Result<T, APINetworkError>) -> Void)
+    func fetchData<T: Decodable>(path: String, queryItems: [URLQueryItem], completion: @escaping (Result<T, APINetworkError>) -> Void)
 }
 
 final class NetworkManager: Networkable {
@@ -32,16 +32,16 @@ final class NetworkManager: Networkable {
         session = URLSession(configuration: .default)
     }
     
-    func fetchData<T: Decodable>(path: String, queryItem: URLQueryItem, completion: @escaping (Result<T, APINetworkError>) -> Void) {
-        
+    func fetchData<T: Decodable>(path: String, queryItems: [URLQueryItem], completion: @escaping (Result<T, APINetworkError>) -> Void) {
         var components = urlComponents
         components.path = path
-        components.queryItems?.append(queryItem)
+        
+        queryItems.forEach { queryItem in
+            components.queryItems?.append(queryItem)
+        }
         
         guard let url = components.url else {
-            //            DispatchQueue.main.async {
             completion(.failure(.invalidURL))
-            //            }
             return
         }
         

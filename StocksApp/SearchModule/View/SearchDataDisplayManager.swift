@@ -19,17 +19,17 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
         "Aggressive Small Caps",
         "Small Cap Gainers"
     ]
-    var tickersList: [Stock] = []
+    var stocksList: [Stock] = []
     
     var onTickerDidSelect: (() -> Void)?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tickersList.count
+        return stocksList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
-        cell.setUp(with: tickersList[indexPath.row])
+        cell.setUp(with: stocksList[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }
