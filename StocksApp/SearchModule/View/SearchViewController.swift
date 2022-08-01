@@ -97,7 +97,13 @@ class SearchViewController: UIViewController {
         return collection
     }()
     
-    var activityIndicator : NVActivityIndicatorView!
+    lazy var activityIndicator: UIActivityIndicatorView = {
+      let view = UIActivityIndicatorView(style: .medium)
+      view.color = .black
+//      view.startAnimating()
+      view.translatesAutoresizingMaskIntoConstraints = false
+      return view
+    }()
     
     var output: SearchViewOutput?
     var dataDisplayManager: SearchDataDisplayManager?
@@ -106,6 +112,7 @@ class SearchViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         output?.didLoadView()
         
         setUpNaviagtionController()
@@ -166,14 +173,35 @@ class SearchViewController: UIViewController {
     // MARK: - SetUp Activity Indicator
     
     func setUpActivityIndicator() {
+        
+        let loading = NVActivityIndicatorView(frame: .zero, type: .ballBeat, color: .blue, padding: 0)
+        loading.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(loading)
+        view.bringSubviewToFront(loading)
+//        NSLayoutConstraint.activate ([
+//            loading.widthAnchor.constraint(equalToConstant: 40),
+//            loading.heightAnchor.constraint(equalToConstant: 40),
+//            loading.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            loading.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+//        ])
+        
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+            loading.startAnimating()
+        }
 //        dataDisplayManager?.stocksIsEmpty = {
-//        if ((dataDisplayManager?.stocksList.isEmpty) != nil) {
-//            activityIndicator.type = .ballBeat
-//            activityIndicator.startAnimating()
-//
-//        } else {
-//            activityIndicator.stopAnimating()
-//        }
+        if ((dataDisplayManager?.stocksList.isEmpty) != nil) {
+//            loading.type = .ballBeat
+            activityIndicator.startAnimating()
+            print("my stocklist is \(dataDisplayManager?.stocksList.isEmpty)")
+            
+        } else {
+            activityIndicator.startAnimating()
+            print("my stocklist is \(dataDisplayManager?.stocksList.isEmpty)")
+            loading.stopAnimating()
+        }
 //        }
     }
     
@@ -215,11 +243,11 @@ class SearchViewController: UIViewController {
             make.top.equalTo(historyLabel.snp.bottom)
         }
         
-//        view.addSubview(activityIndicator)
-//        activityIndicator.snp.makeConstraints { make in
-//            make.centerX.equalTo(stocksTable.snp.centerX)
-//            make.centerY.equalTo(stocksTable.snp.centerY)
-//        }
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints { make in
+            make.centerX.equalTo(stocksTable.snp.centerX)
+            make.centerY.equalTo(stocksTable.snp.centerY)
+        }
     }
     
 }

@@ -19,7 +19,7 @@ class StockCell: UITableViewCell {
     }()
     private let logoImageVIew: UIImageView = {
         let image = UIImageView()
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleToFill
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         image.layer.masksToBounds = true

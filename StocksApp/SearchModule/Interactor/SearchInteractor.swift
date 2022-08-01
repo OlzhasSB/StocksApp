@@ -34,7 +34,7 @@ final class SearchInteractor: SearchInteractorInput {
         networkManager.fetchData(path: "/api/v1/stock/symbol", queryItems: queryItem) { [weak self] (result : Result <[Ticker], APINetworkError>) in
             switch result {
             case .success(let tickersList):
-                let shortList = Array(tickersList.prefix(10))
+                let shortList = Array(tickersList.prefix(30))
                 self?.obtainProfile(with: shortList)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -48,7 +48,7 @@ final class SearchInteractor: SearchInteractorInput {
         networkManager.fetchData(path: "/api/v1/search", queryItems: queryItem) { [weak self] (result : Result <LookupEntity, APINetworkError>) in
             switch result {
             case .success(let list):
-                let lookupList = Array(list.result.prefix(10))
+                let lookupList = Array(list.result.prefix(30))
                 self?.obtainProfile(with: lookupList)
             case .failure(let error):
                 print(error.localizedDescription)

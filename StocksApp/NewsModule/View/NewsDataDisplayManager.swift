@@ -25,6 +25,7 @@ final class NewsDataDisplayManager: NSObject {
             cell.categorylabel.textColor = .white
         } else if isCellDidSelected == true {
             cell.backgroundColor = .systemGray6
+            cell.categorylabel.textColor = .black
         }
         cell.layer.cornerRadius = 17
         cell.layer.masksToBounds = true
@@ -92,8 +93,8 @@ extension NewsDataDisplayManager: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath) as! NewsTableViewCell
         cell.configure(with: news[indexPath.row])
         cell.selectionStyle = .none
+        print("my celll is \(cell.configure(with: news[indexPath.row]))")
         cell.onWebsiteLinkButtonDidTap = { [weak self] in
-            
             guard let self = self else { return }
             self.onNewsUrlDidSelect?(self.news[indexPath.row].url)
         }
