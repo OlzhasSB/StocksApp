@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-import NVActivityIndicatorView
+import SkeletonView
 
 protocol SearchViewOutput {
     func didLoadView()
@@ -97,14 +97,6 @@ class SearchViewController: UIViewController {
         return collection
     }()
     
-    lazy var activityIndicator: UIActivityIndicatorView = {
-      let view = UIActivityIndicatorView(style: .medium)
-      view.color = .black
-//      view.startAnimating()
-      view.translatesAutoresizingMaskIntoConstraints = false
-      return view
-    }()
-    
     var output: SearchViewOutput?
     var dataDisplayManager: SearchDataDisplayManager?
     var searchBarManager: SearchBarManager?
@@ -114,9 +106,9 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         output?.didLoadView()
-        
+        stocksTable.isSkeletonable = true
+        stocksTable.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
         setUpNaviagtionController()
-        setUpActivityIndicator()
         configureTableCollectionViews()
         configureSearchBar()
         makeConstraints()
@@ -170,40 +162,6 @@ class SearchViewController: UIViewController {
         }
         searchView.isHidden = isHidden
     }
-    // MARK: - SetUp Activity Indicator
-    
-    func setUpActivityIndicator() {
-        
-        let loading = NVActivityIndicatorView(frame: .zero, type: .ballBeat, color: .blue, padding: 0)
-        loading.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(loading)
-        view.bringSubviewToFront(loading)
-//        NSLayoutConstraint.activate ([
-//            loading.widthAnchor.constraint(equalToConstant: 40),
-//            loading.heightAnchor.constraint(equalToConstant: 40),
-//            loading.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-//            loading.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-//        ])
-        
-        
-        
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-            loading.startAnimating()
-        }
-//        dataDisplayManager?.stocksIsEmpty = {
-        if ((dataDisplayManager?.stocksList.isEmpty) != nil) {
-//            loading.type = .ballBeat
-            activityIndicator.startAnimating()
-            print("my stocklist is \(dataDisplayManager?.stocksList.isEmpty)")
-            
-        } else {
-            activityIndicator.startAnimating()
-            print("my stocklist is \(dataDisplayManager?.stocksList.isEmpty)")
-            loading.stopAnimating()
-        }
-//        }
-    }
     
     // MARK: - Constraints
     private func makeConstraints() {
@@ -242,12 +200,6 @@ class SearchViewController: UIViewController {
             make.leading.trailing.equalTo(searchView)
             make.top.equalTo(historyLabel.snp.bottom)
         }
-        
-        view.addSubview(activityIndicator)
-        activityIndicator.snp.makeConstraints { make in
-            make.centerX.equalTo(stocksTable.snp.centerX)
-            make.centerY.equalTo(stocksTable.snp.centerY)
-        }
     }
     
 }
@@ -256,6 +208,8 @@ extension SearchViewController: SearchViewInput {
     
     func handleObtainedStocksList(_ stocksList: [Stock]) {
         dataDisplayManager?.stocksList.removeAll()
+        stocksTable.stopSkeletonAnimation()
+        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         dataDisplayManager?.stocksList = stocksList
         stocksTable.reloadData()
     }
@@ -263,12 +217,16 @@ extension SearchViewController: SearchViewInput {
     func handleSearchBarTap() {
         searchView.isHidden = false
         dataDisplayManager?.stocksList.removeAll()
+        stocksTable.stopSkeletonAnimation()
+        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         stocksTable.reloadData()
         searchBar.setShowsCancelButton(true, animated: true)
     }
     
     func handleSearchBarCancel() {
         dataDisplayManager?.stocksList.removeAll()
+        stocksTable.stopSkeletonAnimation()
+        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         stocksTable.reloadData()
         searchBar.setShowsCancelButton(false, animated: true)
         searchView.isHidden = true

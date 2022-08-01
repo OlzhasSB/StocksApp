@@ -15,15 +15,16 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     
     private var categories: [NewsCategoriesEntity] = [
         NewsCategoriesEntity.init(category: "All"),
-        NewsCategoriesEntity.init(category: "top news"),
-        NewsCategoriesEntity.init(category: "business"),
-        NewsCategoriesEntity.init(category: "technology")
+        NewsCategoriesEntity.init(category: "Top news"),
+        NewsCategoriesEntity.init(category: "Business"),
+        NewsCategoriesEntity.init(category: "Technology")
     ]
     private var news: [News] = []
     
     func didLoadView() {
         interactor.obtainNews()
         view.hundleObtainedNewsCategories(categories)
+        print(5)
         view.hundleObtainedNews(news)
     }
     
@@ -36,12 +37,14 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     }
     
     func didLoadNews(_ news: [News]) {
+        print(3)
         self.news = news
         view.hundleObtainedNews(news)
     }
     
     func didFilteredNews(_ news: [News]) {
         view.hundleObtainedNews(news)
+        print(4)
     }
 
 }

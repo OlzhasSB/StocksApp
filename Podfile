@@ -9,5 +9,5 @@ target 'StocksApp' do
 pod 'HGPlaceholders'
 pod 'Kingfisher', '~> 7.0'
 pod 'SnapKit', '~> 5.6.0'
-pod 'NVActivityIndicatorView'
+pod "SkeletonView"
 end

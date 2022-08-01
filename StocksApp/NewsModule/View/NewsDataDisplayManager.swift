@@ -5,19 +5,18 @@
 //  Created by Olzhas Seiilkhanov on 25.07.2022.
 //
 
-import Foundation
 import UIKit
-import Kingfisher
-
+import SkeletonView
 
 final class NewsDataDisplayManager: NSObject {
     
     var categories: [NewsCategoriesEntity] = []
-    var news: [News] = []
+    var news: [News]?
     
     var onCategoryDidSelect: ((String) -> Void)?
     var onNewsUrlDidSelect: ((String) -> Void)?
     var isCellDidSelected: Bool = false
+    var tableViewIsEmpty: (() -> Void)?
     
     func defaultColor(with cell: NewsCategoryCollectionViewCell, index: Int) {
         if isCellDidSelected == false && index == 0 {
@@ -82,22 +81,37 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
     }
 }
 
-extension NewsDataDisplayManager: UITableViewDelegate, UITableViewDataSource {
+extension NewsDataDisplayManager: UITableViewDelegate, SkeletonTableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news.count
+        return news?.count ?? 10
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return NewsTableViewCell.identifier
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier, for: indexPath) as! NewsTableViewCell
+    
+        cell.showAnimationInCell()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NewsTableViewCell", for: indexPath) as! NewsTableViewCell
-        cell.configure(with: news[indexPath.row])
-        cell.selectionStyle = .none
-        print("my celll is \(cell.configure(with: news[indexPath.row]))")
-        cell.onWebsiteLinkButtonDidTap = { [weak self] in
-            guard let self = self else { return }
-            self.onNewsUrlDidSelect?(self.news[indexPath.row].url)
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier, for: indexPath) as! NewsTableViewCell
+        
+        if news != nil {
+            cell.hideAnimation()
+            cell.selectionStyle = .none
+            cell.configure(with: news![indexPath.row])
+            cell.onWebsiteLinkButtonDidTap = { [weak self] in
+                guard let self = self else { return }
+                self.onNewsUrlDidSelect?(self.news![indexPath.row].url)
+            }
         }
+        
         return cell
     }
 }

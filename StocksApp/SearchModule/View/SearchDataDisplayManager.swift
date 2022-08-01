@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import SkeletonView
 
-final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableViewDataSource {
+final class SearchDataDisplayManager: NSObject, UITableViewDelegate, SkeletonTableViewDataSource {
     
     var stocksList: [Stock] = []
     var lastSearch: [String] = []
@@ -18,6 +19,10 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
+        return "stockCell"
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

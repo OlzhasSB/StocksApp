@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import SkeletonView
 
 class StockCell: UITableViewCell {
     
@@ -23,27 +24,32 @@ class StockCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         image.layer.masksToBounds = true
+        image.isSkeletonable = true
         return image
     }()
     let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
+        label.isSkeletonable = true
         return label
     }()
     let tickerLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.isSkeletonable = true
         return label
     }()
     let starImageView: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "star")
+        image.isSkeletonable = true
         return image
     }()
     let priceLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.text = "$123.42"
+        label.isSkeletonable = true
         return label
     }()
     let priceChangeLabel: UILabel = {
@@ -51,6 +57,7 @@ class StockCell: UITableViewCell {
         label.text = "+$0.12 (1,15%)"
         label.textColor = .systemGreen
         label.font = UIFont.systemFont(ofSize: 12)
+        label.isSkeletonable = true
         return label
     }()
     

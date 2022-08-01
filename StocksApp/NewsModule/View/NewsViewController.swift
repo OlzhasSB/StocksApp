@@ -7,6 +7,7 @@
 
 import UIKit
 import HGPlaceholders
+import SkeletonView
 
 protocol NewsViewInput: AnyObject {
     func hundleObtainedNewsCategories(_ categories: [NewsCategoriesEntity])
@@ -49,16 +50,22 @@ class NewsViewController: UIViewController {
         let table = TableView()
         table.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
         table.showsVerticalScrollIndicator = false
+        table.isSkeletonable = true
         return table
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        output?.didLoadView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpTableCollectionViews()
         makeConstraints()
-        output?.didLoadView()
-        newsTableView.isHidden = true
+        
+//        newsTableView.isHidden = true
     }
     
     private func setUpTableCollectionViews() {
@@ -74,8 +81,13 @@ class NewsViewController: UIViewController {
         categoriesCollectionView.delegate = dataDisplayManager
         categoriesCollectionView.dataSource = dataDisplayManager
         
+//        dataDisplayManager?.tableViewIsEmpty = {
+//            self.newsTableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        }
+        
         newsTableView.delegate = dataDisplayManager
         newsTableView.dataSource = dataDisplayManager
+        
     }
     
     private func makeConstraints() {
@@ -113,8 +125,13 @@ extension NewsViewController: NewsViewInput {
     func hundleObtainedNews(_ news: [News]) {
         dataDisplayManager?.news = news
         newsTableView.isHidden = false
+        newsTableView.stopSkeletonAnimation()
+        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+        print(2)
+        
         newsTableView.reloadData()
     }
     
 }
+
 

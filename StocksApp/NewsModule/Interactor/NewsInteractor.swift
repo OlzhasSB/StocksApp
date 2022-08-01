@@ -41,7 +41,7 @@ final class NewsInteractor: NewsInteractorInput {
     
     func ontainFilteredNews(with news: [News], category: String) {
         var filteredNews = news.filter { filteredNews in
-            if filteredNews.category == category {
+            if filteredNews.category.lowercased() == category.lowercased() {
                 return true
             }
             return false

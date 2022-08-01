@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import SkeletonView
 
 typealias CallBack = () -> Void
 
 class NewsTableViewCell: UITableViewCell {
 
+    static var identifier = "NewsTableViewCell"
+    
     var onWebsiteLinkButtonDidTap: CallBack?
+    var tableViewIsEmpty: CallBack?
     
     // MARK: - UIImageView, UIView, UILabel
     
@@ -21,39 +25,50 @@ class NewsTableViewCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 5
         image.layer.masksToBounds = true
+        image.isSkeletonable = true
         return image
     }()
 
+
     private let headlinelabel: UILabel = {
         let label = UILabel()
+        label.text = ""
         label.textColor = UIColor.black
         label.font = UIFont.boldSystemFont(ofSize: 25.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
+        label.layer.cornerRadius = 5
+        label.isSkeletonable = true
         return label
     }()
 
     private let datetimeLabel: UILabel = {
-         let label = UILabel()
-         label.font = UIFont.systemFont(ofSize: 14)
-         label.textColor = UIColor.darkGray
-         label.translatesAutoresizingMaskIntoConstraints = false
-         return label
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.darkGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        return label
     }()
 
     private let sourceLabel: UILabel = {
-         let label = UILabel()
-         label.font = UIFont.systemFont(ofSize: 14)
-         label.textColor = UIColor.darkGray
-         label.translatesAutoresizingMaskIntoConstraints = false
-         return label
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = UIColor.darkGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
+        return label
     }()
     
     private let summaryLabel: UILabel = {
         let label = UILabel()
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isSkeletonable = true
         label.numberOfLines = 0
         return label
     }()
@@ -65,12 +80,35 @@ class NewsTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(UIColor.systemGray3, for: .normal)
         button.addTarget(self, action: #selector(handleOpenUrl), for: .touchUpInside)
+        button.isSkeletonable = true
         return button
     }()
+    
+    func hideAnimation() {
+        newsImageView.hideSkeleton()
+        headlinelabel.hideSkeleton()
+        datetimeLabel.hideSkeleton()
+        sourceLabel.hideSkeleton()
+        summaryLabel.hideSkeleton()
+        urlButton.hideSkeleton()
+        
+    }
+    
+    func showAnimationInCell() {
+        newsImageView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
 
+        headlinelabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+
+        datetimeLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+        sourceLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+        summaryLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+        urlButton.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        showAnimationInCell()
+
         setUpConstraints()
      }
 
@@ -130,9 +168,11 @@ class NewsTableViewCell: UITableViewCell {
         urlButton.snp.makeConstraints { make in
             make.top.equalTo(summaryLabel.snp.bottom).offset(5)
             make.left.equalTo(newsImageView.snp.left)
-            make.bottom.equalTo(contentView).offset(-7)
+            make.bottom.equalTo(contentView).offset(-15)
+            make.width.equalTo(105)
         }
     }
+
     
     required init?(coder aDecoder: NSCoder) {
        super.init(coder: aDecoder)

@@ -1,30 +1,28 @@
 PODS:
   - HGPlaceholders (0.5.0)
   - Kingfisher (7.3.0)
-  - NVActivityIndicatorView (5.1.1):
-    - NVActivityIndicatorView/Base (= 5.1.1)
-  - NVActivityIndicatorView/Base (5.1.1)
+  - SkeletonView (1.29.2)
   - SnapKit (5.6.0)
 
 DEPENDENCIES:
   - HGPlaceholders
   - Kingfisher (~> 7.0)
-  - NVActivityIndicatorView
+  - SkeletonView
   - SnapKit (~> 5.6.0)
 
 SPEC REPOS:
   trunk:
     - HGPlaceholders
     - Kingfisher
-    - NVActivityIndicatorView
+    - SkeletonView
     - SnapKit
 
 SPEC CHECKSUMS:
   HGPlaceholders: cbf8caed8360fc2ab5e8a4610cce61f76fbd2c37
   Kingfisher: cdb1189a9223b1bc028816bd47c8b8101a58831c
-  NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
+  SkeletonView: 915a80ecc2b6421ab7ac0f0212321c0cc1406472
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: bf0b9cb7175c151d7c90585cc57a464636ab3b78
+PODFILE CHECKSUM: 86eb1e9c3056a6ca82124833dbd981029c21aab3
 
 COCOAPODS: 1.11.3
