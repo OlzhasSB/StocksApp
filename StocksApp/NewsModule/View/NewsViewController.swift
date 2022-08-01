@@ -25,6 +25,7 @@ class NewsViewController: UIViewController {
     var output: NewsViewOutput?
     var dataDisplayManager: NewsDataDisplayManager?
     
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
@@ -63,10 +64,12 @@ class NewsViewController: UIViewController {
         super.viewDidLoad()
         
         setUpTableCollectionViews()
+        
         makeConstraints()
         
 //        newsTableView.isHidden = true
     }
+    
     
     private func setUpTableCollectionViews() {
         
@@ -89,6 +92,7 @@ class NewsViewController: UIViewController {
         newsTableView.dataSource = dataDisplayManager
         
     }
+    
     
     private func makeConstraints() {
         
@@ -131,7 +135,5 @@ extension NewsViewController: NewsViewInput {
         
         newsTableView.reloadData()
     }
-    
 }
-
 

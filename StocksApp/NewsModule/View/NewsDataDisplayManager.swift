@@ -121,3 +121,4 @@ extension NewsDataDisplayManager: UITableViewDelegate, SkeletonTableViewDataSour
         return cell
     }
 }
+

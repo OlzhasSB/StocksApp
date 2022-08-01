@@ -11,17 +11,17 @@ final class DetailsAssembly {
     
     func assemle() -> UIViewController {
         
-//        let dataDisplayManager = NewsDataDisplayManager()
+        let dataDisplayManager = DetailsDataDisplayManager()
         let viewController = DetailsViewController()
         let presenter = DetailsPresenter()
         let network: Networkable = NetworkManager.shared
         let interactor = DetailsInteractor(network: network)
         let router = DetailsRouter()
         
-//        viewController.dataDisplayManager = dataDisplayManager
+        viewController.dataDisplayManager = dataDisplayManager
         viewController.output = presenter
         
-//        presenter.view = viewController
+        presenter.view = viewController
         presenter.interactor = interactor
         presenter.router = router
         

@@ -13,24 +13,25 @@ final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput {
     var interactor: DetailsInteractorInput!
     var router: DetailsRouterInput!
     
-//    private var categories: [NewsCategoriesEntity] = [
-//        NewsCategoriesEntity.init(category: "All"),
-//        NewsCategoriesEntity.init(category: "top news"),
-//        NewsCategoriesEntity.init(category: "business"),
-//        NewsCategoriesEntity.init(category: "technology")
-//    ]
-//    private var news: [News] = []
-//    
+    private var filter: [FilterEntity] = [
+        FilterEntity.init(filter: "15"),
+        FilterEntity.init(filter: "30"),
+        FilterEntity.init(filter: "60"),
+        FilterEntity.init(filter: "D"),
+        FilterEntity.init(filter: "W"),
+        FilterEntity.init(filter: "M")
+    ]
+
     func didLoadView() {
 //        interactor.obtainNews()
-//        view.hundleObtainedNewsCategories(categories)
+        view.hundleObtainedFilter(filter)
 //        view.hundleObtainedNews(news)
     }
 //
-//    func didSelectCategoryCell(with category: String) {
+    func didSelectFilterCell(with filter: String) {
 //        interactor.ontainFilteredNews(with: news, category: category)
-//    }
-//
+    }
+
 //    func didSelectNewsUrlCell(with url: String) {
 //        router.openNewsWebsite(with: url)
 //    }

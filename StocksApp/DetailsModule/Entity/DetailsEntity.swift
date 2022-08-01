@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct FilterEntity {
+    var filter: String
+}
+
