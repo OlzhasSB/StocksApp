@@ -32,7 +32,6 @@ class NewsTableViewCell: UITableViewCell {
 
     private let headlinelabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.textColor = UIColor.black
         label.font = UIFont.boldSystemFont(ofSize: 25.0)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -44,7 +43,6 @@ class NewsTableViewCell: UITableViewCell {
 
     private let datetimeLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +52,6 @@ class NewsTableViewCell: UITableViewCell {
 
     private let sourceLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +61,6 @@ class NewsTableViewCell: UITableViewCell {
     
     private let summaryLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -96,9 +92,7 @@ class NewsTableViewCell: UITableViewCell {
     
     func showAnimationInCell() {
         newsImageView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-
         headlinelabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-
         datetimeLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
         sourceLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
         summaryLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
@@ -107,8 +101,8 @@ class NewsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         showAnimationInCell()
-
         setUpConstraints()
      }
 

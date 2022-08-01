@@ -106,8 +106,8 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         output?.didLoadView()
-        stocksTable.isSkeletonable = true
-        stocksTable.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        stocksTable.isSkeletonable = true
+//        stocksTable.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
         setUpNaviagtionController()
         configureTableCollectionViews()
         configureSearchBar()
@@ -208,8 +208,8 @@ extension SearchViewController: SearchViewInput {
     
     func handleObtainedStocksList(_ stocksList: [Stock]) {
         dataDisplayManager?.stocksList.removeAll()
-        stocksTable.stopSkeletonAnimation()
-        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+//        stocksTable.stopSkeletonAnimation()
+//        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         dataDisplayManager?.stocksList = stocksList
         stocksTable.reloadData()
     }
@@ -217,16 +217,16 @@ extension SearchViewController: SearchViewInput {
     func handleSearchBarTap() {
         searchView.isHidden = false
         dataDisplayManager?.stocksList.removeAll()
-        stocksTable.stopSkeletonAnimation()
-        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+//        stocksTable.stopSkeletonAnimation()
+//        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         stocksTable.reloadData()
         searchBar.setShowsCancelButton(true, animated: true)
     }
     
     func handleSearchBarCancel() {
         dataDisplayManager?.stocksList.removeAll()
-        stocksTable.stopSkeletonAnimation()
-        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+//        stocksTable.stopSkeletonAnimation()
+//        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         stocksTable.reloadData()
         searchBar.setShowsCancelButton(false, animated: true)
         searchView.isHidden = true

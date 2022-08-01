@@ -13,7 +13,7 @@ protocol Networkable {
 
 final class NetworkManager: Networkable {
     
-    private let API_KEY = "cbjrhhqad3iarlnd7ok0"
+    private let API_KEY = "cbjs4eiad3iarlnd8400"
     static var shared = NetworkManager()
     
     private lazy var urlComponents: URLComponents = {

@@ -18,16 +18,17 @@ final class NewsDataDisplayManager: NSObject {
     var isCellDidSelected: Bool = false
     var tableViewIsEmpty: (() -> Void)?
     
-    func defaultColor(with cell: NewsCategoryCollectionViewCell, index: Int) {
+    func defaultColor(with cell: NewsCategoryCollectionViewCell, index: Int, indexpath: IndexPath) {
+
+        cell.backgroundColor = .systemGray6
+        cell.categorylabel.textColor = .black
+        cell.layer.cornerRadius = 17
+        cell.layer.masksToBounds = true
+        
         if isCellDidSelected == false && index == 0 {
             cell.backgroundColor = .black
             cell.categorylabel.textColor = .white
-        } else if isCellDidSelected == true {
-            cell.backgroundColor = .systemGray6
-            cell.categorylabel.textColor = .black
         }
-        cell.layer.cornerRadius = 17
-        cell.layer.masksToBounds = true
     }
     
     func selectedColor(with cell: NewsCategoryCollectionViewCell, index: Int) {
@@ -56,7 +57,12 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsCategoryCollectionViewCell", for: indexPath) as! NewsCategoryCollectionViewCell
         cell.categorylabel.text = categories[indexPath.row].category
-        defaultColor(with: cell, index: indexPath.row )
+        
+        if isCellDidSelected == false && indexPath.row == 0 {
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: UICollectionView.ScrollPosition.centeredHorizontally)
+        }
+
+        defaultColor(with: cell, index: indexPath.row, indexpath: indexPath )
         return cell
     }
     
