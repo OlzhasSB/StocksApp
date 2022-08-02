@@ -109,7 +109,7 @@ extension NewsDataDisplayManager: UITableViewDelegate, SkeletonTableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier, for: indexPath) as! NewsTableViewCell
         
         if news != nil {
-            cell.hideAnimation()
+//            cell.hideAnimation()
             cell.selectionStyle = .none
             cell.configure(with: news![indexPath.row])
             cell.onWebsiteLinkButtonDidTap = { [weak self] in
