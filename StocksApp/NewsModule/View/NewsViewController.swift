@@ -131,8 +131,6 @@ extension NewsViewController: NewsViewInput {
         newsTableView.isHidden = false
         newsTableView.stopSkeletonAnimation()
         view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
-        print(2)
-        
         newsTableView.reloadData()
     }
 }

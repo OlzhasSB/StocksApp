@@ -666,7 +666,7 @@
 		9A15F67455C6740FBC65CCF11337A310 /* UIView+SKExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIView+SKExtensions.swift"; path = "SkeletonViewCore/Sources/API/UIKitExtensions/UIView+SKExtensions.swift"; sourceTree = "<group>"; };
 		9ADD03E4D00A6F27BD02DEF00FE51B14 /* UIButton+Kingfisher.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIButton+Kingfisher.swift"; path = "Sources/Extensions/UIButton+Kingfisher.swift"; sourceTree = "<group>"; };
 		9C76481CD022DB6366AF81BE94B25170 /* Indicator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Indicator.swift; path = Sources/Views/Indicator.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F080BDC98A5C9D3F96C2CCAC96114BE /* MemoryStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MemoryStorage.swift; path = Sources/Cache/MemoryStorage.swift; sourceTree = "<group>"; };
 		9F1DFCA02CC1549E2748BC07E6258DB2 /* SnapKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SnapKit-dummy.m"; sourceTree = "<group>"; };
 		9F2AE7157F3D87807F24701B47947A88 /* Resource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Resource.swift; path = Sources/General/ImageSource/Resource.swift; sourceTree = "<group>"; };
@@ -749,7 +749,7 @@
 		CB9CE7385611FB8506B6039679B8E75E /* BarLineScatterCandleBubbleChartDataSetProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = BarLineScatterCandleBubbleChartDataSetProtocol.swift; path = Source/Charts/Data/Interfaces/BarLineScatterCandleBubbleChartDataSetProtocol.swift; sourceTree = "<group>"; };
 		CDBF4A0C73E6BA22EE21C89E5D8F5D3D /* RedirectHandler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RedirectHandler.swift; path = Sources/Networking/RedirectHandler.swift; sourceTree = "<group>"; };
 		CDC8C1E54D1F3A8B5CAC89FFFF6A3F80 /* SkeletonView */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SkeletonView; path = SkeletonView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE496D14DA0EA98EFF05A07F4C8E64A5 /* HGPlaceholders.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HGPlaceholders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE496D14DA0EA98EFF05A07F4C8E64A5 /* HGPlaceholders */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HGPlaceholders; path = HGPlaceholders.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEE97306776734DE6A1691EB83847E23 /* SkeletonReusableCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SkeletonReusableCell.swift; path = SkeletonViewCore/Sources/Internal/Collections/SkeletonReusableCell.swift; sourceTree = "<group>"; };
 		CF464D530AE1ADC307749A4E525E5AB4 /* Pods-StocksApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-StocksApp-umbrella.h"; sourceTree = "<group>"; };
 		CF9C55499E1B1A04CABB43C11CA44BCD /* ConstraintRelation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ConstraintRelation.swift; path = Sources/ConstraintRelation.swift; sourceTree = "<group>"; };
@@ -975,6 +975,7 @@
 				8CD0FF5753BE33722B944E5E1AF2B143 /* UIView+Transitions.swift */,
 				AE2B2E9BF9FB019D78897F31F89EB027 /* Support Files */,
 			);
+			name = SkeletonView;
 			path = SkeletonView;
 			sourceTree = "<group>";
 		};
@@ -1059,6 +1060,7 @@
 				F61E905D9C96A3E5D806B2D1D27A70BF /* WKInterfaceImage+Kingfisher.swift */,
 				3FACE8E7210C1CC9EB2DB4D176663B70 /* Support Files */,
 			);
+			name = Kingfisher;
 			path = Kingfisher;
 			sourceTree = "<group>";
 		};
@@ -1104,6 +1106,7 @@
 				EA5F8D36C3C8B87760AECBABAA4F7C1B /* UILayoutSupport+Extensions.swift */,
 				E64F07CD38FCC91DF265AF8917EA0C6E /* Support Files */,
 			);
+			name = SnapKit;
 			path = SnapKit;
 			sourceTree = "<group>";
 		};
@@ -1153,7 +1156,7 @@
 			isa = PBXGroup;
 			children = (
 				A1C1B977ED8804E8AEEC884E7359EE58 /* Charts */,
-				CE496D14DA0EA98EFF05A07F4C8E64A5 /* HGPlaceholders.framework */,
+				CE496D14DA0EA98EFF05A07F4C8E64A5 /* HGPlaceholders */,
 				C3F44C782D64D7EB20B61CE3844EBFAD /* Kingfisher */,
 				F3044CF493B587F8BDE7B241E497DE87 /* Pods-StocksApp */,
 				CDC8C1E54D1F3A8B5CAC89FFFF6A3F80 /* SkeletonView */,
@@ -1189,6 +1192,7 @@
 				7323B7D39F413F4D24BADF56520AD7AF /* Resources */,
 				985A5B651B34E869386C19926EC1F0FC /* Support Files */,
 			);
+			name = HGPlaceholders;
 			path = HGPlaceholders;
 			sourceTree = "<group>";
 		};
@@ -1206,6 +1210,7 @@
 				F3BFD78D29BA070E3E41AE325A32BF2B /* Core */,
 				BF6B4D00FF6DAC1249B318D307591823 /* Support Files */,
 			);
+			name = Charts;
 			path = Charts;
 			sourceTree = "<group>";
 		};
@@ -1238,6 +1243,7 @@
 				2097DA4149D4ECF8609AC8FC4B674FF2 /* Windows.swift */,
 				1F461C9ECB11F3CF34DD3592A8144AB6 /* Support Files */,
 			);
+			name = SwiftAlgorithms;
 			path = SwiftAlgorithms;
 			sourceTree = "<group>";
 		};
@@ -1558,7 +1564,7 @@
 			);
 			name = HGPlaceholders;
 			productName = HGPlaceholders;
-			productReference = CE496D14DA0EA98EFF05A07F4C8E64A5 /* HGPlaceholders.framework */;
+			productReference = CE496D14DA0EA98EFF05A07F4C8E64A5 /* HGPlaceholders */;
 			productType = "com.apple.product-type.framework";
 		};
 		19622742EBA51E823D6DAE3F8CDBFAD4 /* SnapKit */ = {

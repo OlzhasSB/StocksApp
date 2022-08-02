@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import HGPlaceholders
 import SkeletonView
 
 protocol SearchViewOutput {
@@ -44,8 +45,8 @@ class SearchViewController: UIViewController {
         return bar
     }()
     
-    private let stocksTable: UITableView = {
-        let table = UITableView()
+    private let stocksTable: TableView = {
+        let table = TableView()
         table.register(StockCell.self, forCellReuseIdentifier: "stockCell")
         table.showsVerticalScrollIndicator = false
         table.separatorStyle = .none

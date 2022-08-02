@@ -24,7 +24,6 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     func didLoadView() {
         interactor.obtainNews()
         view.hundleObtainedNewsCategories(categories)
-        print(5)
         view.hundleObtainedNews(news)
     }
     
@@ -37,14 +36,12 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     }
     
     func didLoadNews(_ news: [News]) {
-        print(3)
         self.news = news
         view.hundleObtainedNews(news)
     }
     
     func didFilteredNews(_ news: [News]) {
         view.hundleObtainedNews(news)
-        print(4)
     }
 
 }
