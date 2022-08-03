@@ -9,6 +9,13 @@ import UIKit
 
 class NewsCategoryCollectionViewCell: UICollectionViewCell {
     
+    override var isSelected: Bool {
+        didSet {
+            backgroundColor = isSelected ? .black : .systemGray6
+            categorylabel.textColor = isSelected ? .white : .black
+        }
+    }
+    
     let categorylabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
@@ -20,12 +27,16 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpConstraints()
+        setUpViews()
+    }
+
+    func configure(with category: String) {
+        layer.masksToBounds = true
+        layer.cornerRadius = 17
+        categorylabel.text = category
     }
     
-    // MARK: - Setup Constraints
-
-    func setUpConstraints(){
+    func setUpViews(){
         
         contentView.addSubview(categorylabel)
         categorylabel.snp.makeConstraints { make in

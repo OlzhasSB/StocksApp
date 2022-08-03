@@ -12,6 +12,8 @@ import SkeletonView
 protocol NewsViewInput: AnyObject {
     func hundleObtainedNewsCategories(_ categories: [NewsCategoriesEntity])
     func hundleObtainedNews(_ news: [News])
+    func showLoader()
+    func hideLoader()
 }
 
 protocol NewsViewOutput {
@@ -47,29 +49,22 @@ class NewsViewController: UIViewController {
         return collection
     }()
     
-    private let newsTableView: TableView = {
-        let table = TableView()
-        table.register(NewsTableViewCell.self, forCellReuseIdentifier: "NewsTableViewCell")
+    private let newsTableView: UITableView = {
+        let table = UITableView()
+        table.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         table.showsVerticalScrollIndicator = false
         table.isSkeletonable = true
+        table.estimatedRowHeight = 120.0
+        table.rowHeight = UITableView.automaticDimension
         return table
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        output?.didLoadView()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setUpTableCollectionViews()
-        
         makeConstraints()
-        
-//        newsTableView.isHidden = true
+        output?.didLoadView()
     }
-    
     
     private func setUpTableCollectionViews() {
         
@@ -84,13 +79,8 @@ class NewsViewController: UIViewController {
         categoriesCollectionView.delegate = dataDisplayManager
         categoriesCollectionView.dataSource = dataDisplayManager
         
-//        dataDisplayManager?.tableViewIsEmpty = {
-//            self.newsTableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
-//        }
-        
         newsTableView.delegate = dataDisplayManager
         newsTableView.dataSource = dataDisplayManager
-        
     }
     
     
@@ -121,16 +111,26 @@ class NewsViewController: UIViewController {
 
 extension NewsViewController: NewsViewInput {
     
+    func showLoader() {
+        newsTableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+    }
+    
+    func hideLoader() {
+        newsTableView.stopSkeletonAnimation()
+        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+    }
+    
     func hundleObtainedNewsCategories(_ categories: [NewsCategoriesEntity]) {
         dataDisplayManager?.categories = categories
         categoriesCollectionView.reloadData()
+        
+        // select first item of collection view, when categories are loaded
+        let indexPath:IndexPath = IndexPath(row: 0, section: 0)
+        categoriesCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
     }
     
     func hundleObtainedNews(_ news: [News]) {
         dataDisplayManager?.news = news
-        newsTableView.isHidden = false
-        newsTableView.stopSkeletonAnimation()
-        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         newsTableView.reloadData()
     }
 }

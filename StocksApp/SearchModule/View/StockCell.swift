@@ -125,7 +125,6 @@ class StockCell: UITableViewCell {
         tickerLabel.snp.makeConstraints { make in
             make.leading.equalTo(logoImageVIew.snp.trailing).offset(16)
             make.top.equalTo(logoImageVIew.snp.top).offset(4)
-//            make.centerY.equalTo(contentView)
         }
         
         cellView.addSubview(starImageView)
@@ -140,7 +139,6 @@ class StockCell: UITableViewCell {
             make.leading.equalTo(logoImageVIew.snp.trailing).offset(16)
             make.top.equalTo(tickerLabel.snp.bottom).offset(4)
             make.width.equalTo(200)
-//            make.centerY.equalTo(contentView)
         }
         
         cellView.addSubview(priceLabel)

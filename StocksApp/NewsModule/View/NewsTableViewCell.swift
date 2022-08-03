@@ -80,30 +80,12 @@ class NewsTableViewCell: UITableViewCell {
         return button
     }()
     
-    func hideAnimation() {
-        newsImageView.hideSkeleton()
-        headlinelabel.hideSkeleton()
-        datetimeLabel.hideSkeleton()
-        sourceLabel.hideSkeleton()
-        summaryLabel.hideSkeleton()
-        urlButton.hideSkeleton()
-        
-    }
     
-    func showAnimationInCell() {
-        newsImageView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-        headlinelabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-        datetimeLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-        sourceLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-        summaryLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-        urlButton.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        showAnimationInCell()
 
-        setUpConstraints()
+        setUpViews()
      }
 
     // MARK: - Setup Constraints
@@ -122,7 +104,7 @@ class NewsTableViewCell: UITableViewCell {
         onWebsiteLinkButtonDidTap?()
     }
     
-    func setUpConstraints(){
+    func setUpViews(){
         
         contentView.addSubview(newsImageView)
         newsImageView.snp.makeConstraints { make in
