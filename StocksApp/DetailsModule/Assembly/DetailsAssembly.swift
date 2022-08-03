@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol DetailsModuleInput {
+    func configure(with stock: Stock)
+}
+
+typealias DetailsModuleConfiguration = (DetailsModuleInput) -> Void
+
 final class DetailsAssembly {
     
-    func assemle() -> UIViewController {
+    func assemble(_ configuration: DetailsModuleConfiguration? = nil) -> DetailsViewController {
         
         let dataDisplayManager = DetailsDataDisplayManager()
         let viewController = DetailsViewController()
@@ -17,6 +23,8 @@ final class DetailsAssembly {
         let network: Networkable = NetworkManager.shared
         let interactor = DetailsInteractor(network: network)
         let router = DetailsRouter()
+        
+        configuration?(presenter)
         
         viewController.dataDisplayManager = dataDisplayManager
         viewController.output = presenter

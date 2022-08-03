@@ -12,7 +12,7 @@ import SkeletonView
 
 protocol SearchViewOutput {
     func didLoadView()
-    func didSelectTickerCell()
+    func didSelectTickerCell(at stock: Stock)
     func didTapFavourite(at stock: Stock)
     
     func didTapSearchBar()
@@ -129,8 +129,8 @@ class SearchViewController: UIViewController {
         stocksTable.delegate = dataDisplayManager
         stocksTable.dataSource = dataDisplayManager
         
-        dataDisplayManager?.onTickerDidSelect = { [weak self] in
-            self?.output?.didSelectTickerCell()
+        dataDisplayManager?.onTickerDidSelect = { [weak self] stock in
+            self?.output?.didSelectTickerCell(at: stock)
         }
         dataDisplayManager?.onFavouriteDidTap = { [weak self] stock in
             self?.output?.didTapFavourite(at: stock)
