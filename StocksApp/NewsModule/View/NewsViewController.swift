@@ -10,8 +10,8 @@ import HGPlaceholders
 import SkeletonView
 
 protocol NewsViewInput: AnyObject {
-    func hundleObtainedNewsCategories(_ categories: [NewsCategoriesEntity])
-    func hundleObtainedNews(_ news: [News])
+    func handleObtainedNewsCategories(_ categories: [NewsCategoriesEntity])
+    func handleObtainedNews(_ news: [News])
     func showLoader()
     func hideLoader()
 }
@@ -23,10 +23,9 @@ protocol NewsViewOutput {
 }
 
 class NewsViewController: UIViewController {
-
+    
     var output: NewsViewOutput?
     var dataDisplayManager: NewsDataDisplayManager?
-    
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -54,7 +53,7 @@ class NewsViewController: UIViewController {
         table.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         table.showsVerticalScrollIndicator = false
         table.isSkeletonable = true
-        table.estimatedRowHeight = 120.0
+        table.estimatedRowHeight = 200.0
         table.rowHeight = UITableView.automaticDimension
         return table
     }()
@@ -67,7 +66,6 @@ class NewsViewController: UIViewController {
     }
     
     private func setUpTableCollectionViews() {
-        
         dataDisplayManager?.onCategoryDidSelect = { [ weak self] category in
             self?.output?.didSelectCategoryCell(with: category)
         }
@@ -110,7 +108,6 @@ class NewsViewController: UIViewController {
 }
 
 extension NewsViewController: NewsViewInput {
-    
     func showLoader() {
         newsTableView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
     }
@@ -119,8 +116,7 @@ extension NewsViewController: NewsViewInput {
         newsTableView.stopSkeletonAnimation()
         view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
     }
-    
-    func hundleObtainedNewsCategories(_ categories: [NewsCategoriesEntity]) {
+    func handleObtainedNewsCategories(_ categories: [NewsCategoriesEntity]) {
         dataDisplayManager?.categories = categories
         categoriesCollectionView.reloadData()
         
@@ -129,7 +125,7 @@ extension NewsViewController: NewsViewInput {
         categoriesCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
     }
     
-    func hundleObtainedNews(_ news: [News]) {
+    func handleObtainedNews(_ news: [News]) {
         dataDisplayManager?.news = news
         newsTableView.reloadData()
     }

@@ -38,6 +38,8 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
     
     func setUpViews(){
         
+        backgroundColor = .systemGray6
+        
         contentView.addSubview(categorylabel)
         categorylabel.snp.makeConstraints { make in
             make.top.equalTo(contentView).offset(2)

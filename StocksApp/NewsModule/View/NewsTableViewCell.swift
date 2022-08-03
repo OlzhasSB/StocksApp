@@ -80,12 +80,9 @@ class NewsTableViewCell: UITableViewCell {
         return button
     }()
     
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        setUpViews()
+        setupViews()
      }
 
     // MARK: - Setup Constraints
@@ -104,7 +101,11 @@ class NewsTableViewCell: UITableViewCell {
         onWebsiteLinkButtonDidTap?()
     }
     
-    func setUpViews(){
+    func setupViews(){
+        
+        isSkeletonable = true
+        contentView.isSkeletonable = true
+        selectionStyle = .none
         
         contentView.addSubview(newsImageView)
         newsImageView.snp.makeConstraints { make in

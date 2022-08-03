@@ -13,19 +13,21 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     var interactor: NewsInteractorInput!
     var router: NewsRouterInput!
     
+    // if there are defined number of categories, it's better to create an Enum
     private var categories: [NewsCategoriesEntity] = [
         NewsCategoriesEntity.init(category: "All"),
         NewsCategoriesEntity.init(category: "Top news"),
         NewsCategoriesEntity.init(category: "Business"),
         NewsCategoriesEntity.init(category: "Technology")
     ]
+    
     private var news: [News] = []
     
     func didLoadView() {
         view.showLoader()
         interactor.obtainNews()
-        view.hundleObtainedNewsCategories(categories)
-        view.hundleObtainedNews(news)
+        view.handleObtainedNewsCategories(categories)
+        view.handleObtainedNews(news)
     }
     
     func didSelectCategoryCell(with category: String) {
@@ -38,12 +40,12 @@ final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     
     func didLoadNews(_ news: [News]) {
         self.news = news
-        view.hundleObtainedNews(news)
+        view.handleObtainedNews(news)
         view.hideLoader()
     }
     
     func didFilteredNews(_ news: [News]) {
-        view.hundleObtainedNews(news)
+        view.handleObtainedNews(news)
     }
 
 }

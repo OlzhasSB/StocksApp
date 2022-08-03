@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import HGPlaceholders
 import SkeletonView
 
 final class NewsDataDisplayManager: NSObject {
@@ -28,6 +27,7 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsCategoryCollectionViewCell", for: indexPath) as! NewsCategoryCollectionViewCell
         cell.configure(with: categories[indexPath.row].category)
+        
         return cell
     }
     
@@ -41,7 +41,6 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
 }
 
 extension NewsDataDisplayManager: SkeletonTableViewDelegate, SkeletonTableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         news.count
     }
@@ -73,6 +72,4 @@ extension NewsDataDisplayManager: SkeletonTableViewDelegate, SkeletonTableViewDa
         return cell
     }
 }
-
-
 

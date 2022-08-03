@@ -40,15 +40,23 @@ final class NewsInteractor: NewsInteractorInput {
     }
     
     func ontainFilteredNews(with news: [News], category: String) {
-        var filteredNews = news.filter { filteredNews in
-            if filteredNews.category.lowercased() == category.lowercased() {
-                return true
-            }
-            return false
-        }
-        if category == "All" {
-            filteredNews = news
+        var filteredNews: [News] = news
+        if category != "All" {
+            filteredNews = news.filter { $0.category.lowercased() == category.lowercased() }
         }
         output.didFilteredNews(filteredNews)
     }
+
+//    func ontainFilteredNews(with news: [News], category: String) {
+//        var filteredNews = news.filter { filteredNews in
+//            if filteredNews.category.lowercased() == category.lowercased() {
+//                return true
+//            }
+//            return false
+//        }
+//        if category == "All" {
+//            filteredNews = news
+//        }
+//        output.didFilteredNews(filteredNews)
+//    }
 }

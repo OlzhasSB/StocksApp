@@ -71,9 +71,8 @@ class DetailsViewController: UIViewController {
         
         chartView.animate(xAxisDuration: 1.0)
         chartView.legend.enabled = false
-        chartView.isUserInteractionEnabled = true
-        chartView.setVisibleXRangeMaximum(10)
-        chartView.moveViewToX(15)
+//        chartView.isUserInteractionEnabled = true
+        
 
         return chartView
     }()
@@ -222,6 +221,8 @@ class DetailsViewController: UIViewController {
         let data = LineChartData(dataSet: set)
         data.setDrawValues(false)
         lineChart.data = data
+        lineChart.setVisibleXRangeMaximum(1000000)
+        lineChart.moveViewToX(Double(entities.count - 1))
         
     }
     
