@@ -28,7 +28,8 @@ extension News: SkeletonableViewModel {
         headline: "German chemicals firm warns of production chain collapse as Putin squeezes gas flows",
         image: "",
         datetime: .now,
-        source: "CNBC", summary: "Company says it has adjusted its full year guidance for 2022.",
+        source: "CNBC",
+        summary: "Company says it has adjusted its full year guidance for 2022.",
         url: ""
     )
 }

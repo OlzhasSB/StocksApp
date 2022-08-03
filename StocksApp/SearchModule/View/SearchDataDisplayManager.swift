@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-final class SearchDataDisplayManager: NSObject, UITableViewDelegate, SkeletonTableViewDataSource {
+final class SearchDataDisplayManager: NSObject, SkeletonTableViewDelegate, SkeletonTableViewDataSource {
     
     var stocksList: [Stock] = []
     var lastSearch: [String] = []
@@ -21,8 +21,18 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, SkeletonTab
         return stocksList.count
     }
     
+    func collectionSkeletonView(_ skeletonView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        UITableView.automaticNumberOfSkeletonRows
+    }
+    
     func collectionSkeletonView(_ skeletonView: UITableView, cellIdentifierForRowAt indexPath: IndexPath) -> ReusableCellIdentifier {
         return "stockCell"
+    }
+    
+    func collectionSkeletonView(_ skeletonView: UITableView, skeletonCellForRowAt indexPath: IndexPath) -> UITableViewCell? {
+        let cell = skeletonView.dequeueReusableCell(withIdentifier: "stockCell", for: indexPath) as? StockCell
+        cell?.setUp(with: .skeletonable)
+        return cell
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

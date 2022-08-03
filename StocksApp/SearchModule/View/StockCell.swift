@@ -105,6 +105,11 @@ class StockCell: UITableViewCell {
     }
     
     private func makeConstraints() {
+        
+        isSkeletonable = true
+        contentView.isSkeletonable = true
+        selectionStyle = .none
+        
         contentView.addSubview(cellView)
         cellView.snp.makeConstraints { make in
             make.leading.equalTo(contentView.snp.leading).offset(18)

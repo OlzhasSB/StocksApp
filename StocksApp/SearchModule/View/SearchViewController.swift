@@ -23,9 +23,10 @@ protocol SearchViewOutput {
 
 protocol SearchViewInput: AnyObject {
     func handleObtainedStocksList(_ stocksList: [Stock])
-    
     func handleSearchBarTap()
     func handleSearchBarCancel()
+    func showLoader()
+    func hideLoader()
 }
 
 class SearchViewController: UIViewController {
@@ -50,6 +51,10 @@ class SearchViewController: UIViewController {
         table.register(StockCell.self, forCellReuseIdentifier: "stockCell")
         table.showsVerticalScrollIndicator = false
         table.separatorStyle = .none
+        table.isSkeletonable = true
+        table.estimatedRowHeight = 100.0
+        table.rowHeight = UITableView.automaticDimension
+        table.backgroundColor = .systemBlue
         return table
     }()
 
@@ -107,8 +112,6 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         
         output?.didLoadView()
-//        stocksTable.isSkeletonable = true
-//        stocksTable.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
         setUpNaviagtionController()
         configureTableCollectionViews()
         configureSearchBar()
@@ -207,10 +210,17 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: SearchViewInput {
     
+    func showLoader() {
+        stocksTable.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
+    }
+    
+    func hideLoader() {
+        stocksTable.stopSkeletonAnimation()
+        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
+    }
+    
     func handleObtainedStocksList(_ stocksList: [Stock]) {
         dataDisplayManager?.stocksList.removeAll()
-//        stocksTable.stopSkeletonAnimation()
-//        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         dataDisplayManager?.stocksList = stocksList
         stocksTable.reloadData()
     }
@@ -218,16 +228,12 @@ extension SearchViewController: SearchViewInput {
     func handleSearchBarTap() {
         searchView.isHidden = false
         dataDisplayManager?.stocksList.removeAll()
-//        stocksTable.stopSkeletonAnimation()
-//        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         stocksTable.reloadData()
         searchBar.setShowsCancelButton(true, animated: true)
     }
     
     func handleSearchBarCancel() {
         dataDisplayManager?.stocksList.removeAll()
-//        stocksTable.stopSkeletonAnimation()
-//        view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
         stocksTable.reloadData()
         searchBar.setShowsCancelButton(false, animated: true)
         searchView.isHidden = true

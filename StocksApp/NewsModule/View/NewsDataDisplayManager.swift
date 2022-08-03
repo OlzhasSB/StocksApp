@@ -7,6 +7,7 @@
 
 import UIKit
 import SkeletonView
+import HGPlaceholders
 
 final class NewsDataDisplayManager: NSObject {
     
@@ -27,7 +28,6 @@ extension NewsDataDisplayManager: UICollectionViewDelegate, UICollectionViewData
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NewsCategoryCollectionViewCell", for: indexPath) as! NewsCategoryCollectionViewCell
         cell.configure(with: categories[indexPath.row].category)
-        
         return cell
     }
     

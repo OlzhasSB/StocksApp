@@ -11,6 +11,13 @@ import UIKit
 
 class FilterCollectionViewCell: UICollectionViewCell {
     
+    override var isSelected: Bool {
+        didSet {
+            backgroundColor = isSelected ? .black : .systemGray6
+            categorylabel.textColor = isSelected ? .white : .black
+        }
+    }
+    
     let categorylabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.black
@@ -22,12 +29,18 @@ class FilterCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setUpConstraints()
+        setUpViews()
     }
     
-    // MARK: - Setup Constraints
+    func configure(with category: String) {
+        layer.masksToBounds = true
+        layer.cornerRadius = 17
+        categorylabel.text = category
+    }
 
-    func setUpConstraints(){
+    func setUpViews(){
+        
+        backgroundColor = .systemGray6
         
         contentView.addSubview(categorylabel)
         categorylabel.snp.makeConstraints { make in

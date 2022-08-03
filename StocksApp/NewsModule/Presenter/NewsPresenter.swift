@@ -7,6 +7,28 @@
 
 import Foundation
 
+enum Categories {
+    case all
+    case top
+    case business
+    case technology
+}
+
+extension Categories {
+    public var category: String? {
+        switch self {
+        case .all:
+            return "All"
+        case .top:
+            return "Top news"
+        case .business:
+            return "Business"
+        case .technology:
+            return "Technology"
+        }
+    }
+}
+
 final class NewsPresenter: NewsViewOutput, NewsInteractorOutput {
     
     weak var view: NewsViewInput!

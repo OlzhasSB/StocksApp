@@ -69,10 +69,8 @@ class DetailsViewController: UIViewController {
         chartView.xAxis.setLabelCount(6, force: false)
         chartView.xAxis.labelTextColor = .black
         
-        chartView.animate(xAxisDuration: 1.0)
+        chartView.animate(xAxisDuration: 0.8)
         chartView.legend.enabled = false
-//        chartView.isUserInteractionEnabled = true
-        
 
         return chartView
     }()
@@ -342,6 +340,10 @@ extension DetailsViewController: DetailsViewInput {
     func hundleObtainedFilter(_ filter: [FilterEntity]) {
         dataDisplayManager?.filter = filter
         filterCollectionView.reloadData()
+        
+        // select first item of collection view, when categories are loaded
+        let indexPath:IndexPath = IndexPath(row: 0, section: 0)
+        filterCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
     }
 }
 

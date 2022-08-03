@@ -14,6 +14,7 @@ final class SearchPresenter: SearchViewOutput {
     var router: SearchRouterInput!
     
     func didLoadView() {
+        view.showLoader()
         interactor.obtainStocksList()
     }
     
@@ -47,6 +48,7 @@ extension SearchPresenter: SearchInteractorOutput {
     
     func didLoadStocksList(_ stocksList: [Stock]) {
         view.handleObtainedStocksList(stocksList)
+        view.hideLoader()
     }
     
 }

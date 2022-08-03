@@ -18,8 +18,7 @@ final class SearchModuleAssembly {
         let network: Networkable = NetworkManager.shared
         let interactor = SearchInteractor(networkManager: network)
         let router = SearchRouter()
-        
-//        configuration?(presenter)
+
         viewController.dataDisplayManager = dataDisplayManager
         viewController.searchBarManager = searchBarManager
         viewController.output = presenter

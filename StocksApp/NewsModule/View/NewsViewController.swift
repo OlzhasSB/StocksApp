@@ -48,8 +48,8 @@ class NewsViewController: UIViewController {
         return collection
     }()
     
-    private let newsTableView: UITableView = {
-        let table = UITableView()
+    private let newsTableView: TableView = {
+        let table = TableView()
         table.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
         table.showsVerticalScrollIndicator = false
         table.isSkeletonable = true
@@ -67,6 +67,10 @@ class NewsViewController: UIViewController {
     
     private func setUpTableCollectionViews() {
         dataDisplayManager?.onCategoryDidSelect = { [ weak self] category in
+            print("MY CATEGORY IS \(category)")
+            if category == "Technology" {
+                self?.newsTableView.showNoResultsPlaceholder()
+            }
             self?.output?.didSelectCategoryCell(with: category)
         }
         
@@ -116,6 +120,7 @@ extension NewsViewController: NewsViewInput {
         newsTableView.stopSkeletonAnimation()
         view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
     }
+    
     func handleObtainedNewsCategories(_ categories: [NewsCategoriesEntity]) {
         dataDisplayManager?.categories = categories
         categoriesCollectionView.reloadData()
