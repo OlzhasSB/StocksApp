@@ -13,7 +13,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, SkeletonTab
     var stocksList: [Stock] = []
     var lastSearch: [String] = []
     
-    var onTickerDidSelect: (() -> Void)?
+    var onTickerDidSelect: ((Stock) -> Void)?
     var onFavouriteDidTap: ((Stock) -> Void)?
     var stocksIsEmpty: (() -> Void)?
     
@@ -46,7 +46,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, SkeletonTab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        onTickerDidSelect?()
+        onTickerDidSelect?(stocksList[indexPath.row])
     }
 }
 

@@ -33,8 +33,8 @@ final class SearchPresenter: SearchViewOutput {
         interactor.obtainStocksList()
     }
     
-    func didSelectTickerCell() {
-        router.openDetailsModule()
+    func didSelectTickerCell(at stock: Stock) {
+        router.openDetailsModule(with: stock)
     }
     
     func didTapFavourite(at stock: Stock) {

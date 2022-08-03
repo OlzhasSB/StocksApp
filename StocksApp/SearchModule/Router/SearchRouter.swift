@@ -8,18 +8,16 @@
 import UIKit
 
 protocol SearchRouterInput {
-    func openDetailsModule()
+    func openDetailsModule(with stock: Stock)
 }
 
 final class SearchRouter: SearchRouterInput {
     weak var viewController: UIViewController?
     
-    func openDetailsModule() {
-
-        let viewController = DetailsAssembly().assemle()
-//        { (input) in
-//            input.configure(with: cast)
-//        }
+    func openDetailsModule(with stock: Stock) {
+        let viewController = DetailsAssembly().assemble() { (input) in
+            input.configure(with: stock)
+        }
         self.viewController?.navigationController?.pushViewController(viewController, animated: true)
     }
 }

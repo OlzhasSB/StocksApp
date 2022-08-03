@@ -7,11 +7,17 @@
 
 import Foundation
 
-final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput {
+final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput, DetailsModuleInput {
     
     weak var view: DetailsViewInput!
     var interactor: DetailsInteractorInput!
     var router: DetailsRouterInput!
+    
+    private var stock: Stock!
+    
+    func configure(with stock: Stock) {
+        self.stock = stock
+    }
     
     private var filter: [FilterEntity] = [
         FilterEntity.init(filter: "15"),
