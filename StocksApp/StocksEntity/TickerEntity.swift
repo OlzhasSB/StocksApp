@@ -14,5 +14,6 @@ struct LookupEntity: Decodable {
 struct Ticker: Decodable {
     let description: String
     let displaySymbol: String
+    let symbol: String
 }
 

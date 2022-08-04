@@ -92,7 +92,7 @@ class StockCell: UITableViewCell {
     
     func setUp(with stock: Stock) {
         nameLabel.text = stock.profile?.name
-        tickerLabel.text = (stock.profile?.ticker)
+        tickerLabel.text = (stock.ticker?.displaySymbol)
         priceLabel.text = "$\(stock.quote?.c ?? 0)"
         priceChangeLabel.text = "\(stock.quote?.d ?? 0) \(stock.quote?.dp ?? 0)%"
         
@@ -100,15 +100,14 @@ class StockCell: UITableViewCell {
         guard let priceChange = stock.quote?.d else { return }
         if priceChange < 0 {
             priceChangeLabel.textColor = .red
+        } else {
+            priceChangeLabel.textColor = .systemGreen
+            
         }
         
+        
         // Setting default image
-        if let logo = stock.profile?.logo, logo != "" {
-            let url = URL(string: logo)
-            self.logoImageVIew.kf.setImage(with: url)
-        } else {
-            logoImageVIew.image = UIImage(named: "default.jpeg")
-        }
+        logoImageVIew.kf.setImage(with: URL(string: stock.profile?.logo ?? ""), placeholder: UIImage(named: "default.jpeg"))    
     }
 
     
@@ -125,6 +124,7 @@ class StockCell: UITableViewCell {
             make.top.equalTo(contentView.snp.top).offset(4)
             make.bottom.equalTo(contentView.snp.bottom).offset(-4)
         }
+        
         
         cellView.addSubview(logoImageVIew)
         logoImageVIew.snp.makeConstraints { make in

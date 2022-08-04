@@ -62,6 +62,7 @@ extension SearchDataDisplayManager: SkeletonTableViewDelegate, SkeletonTableView
     }
 }
 
+// MARK: - CollectionView Delegates
 extension SearchDataDisplayManager: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
