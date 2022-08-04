@@ -39,7 +39,8 @@ final class SearchPresenter: SearchViewOutput {
     
     func didTapFavourite(at stock: Stock) {
         // Check if stock is favourite
-        print(stock.profile?.name ?? "")
+        print(stock.ticker?.displaySymbol ?? "no symbol")
+        print(stock.profile?.name ?? "no name")
     }
 }
 

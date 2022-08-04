@@ -50,6 +50,7 @@ final class SearchDataDisplayManager: NSObject, UITableViewDelegate, SkeletonTab
     }
 }
 
+// MARK: - CollectionView Delegates
 extension SearchDataDisplayManager: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

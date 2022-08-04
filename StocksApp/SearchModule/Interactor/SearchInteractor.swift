@@ -20,35 +20,30 @@ final class SearchInteractor: SearchInteractorInput {
     
     weak var output: SearchInteractorOutput!
     private var networkManager: Networkable
+    private var requestManager: RequestManagerProtocol
     
-    required init(networkManager: Networkable) {
+    required init(networkManager: Networkable, requestManager: RequestManagerProtocol) {
         self.networkManager = networkManager
+        self.requestManager = requestManager
     }
     
     func obtainStocksList() {
-        let queryItem = [
-            URLQueryItem(name: "exchange", value: "US"),
-            URLQueryItem(name: "mic", value: "XNYS")
-            ]
-        
-        networkManager.fetchData(path: "/api/v1/stock/symbol", queryItems: queryItem) { [weak self] (result : Result <[Ticker], APINetworkError>) in
+        requestManager.perform(StockRequest.getStocksList(exchage: "US", mic: "XNYS")) { [weak self] (result : Result <[Ticker], APINetworkError>) in
             switch result {
             case .success(let tickersList):
-                let shortList = Array(tickersList.prefix(30))
+                let shortList = Array(tickersList.prefix(10))
                 self?.obtainProfile(with: shortList)
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
-    
-    func obtainLookupList(_ symbol: String) {
-        let queryItem = [URLQueryItem(name: "q", value: symbol)]
         
-        networkManager.fetchData(path: "/api/v1/search", queryItems: queryItem) { [weak self] (result : Result <LookupEntity, APINetworkError>) in
+    func obtainLookupList(_ symbol: String) {
+        requestManager.perform(StockRequest.getLookupList(q: symbol)) { [weak self] (result : Result <LookupEntity, APINetworkError>) in
             switch result {
             case .success(let list):
-                let lookupList = Array(list.result.prefix(30))
+                let lookupList = Array(list.result.prefix(10))
                 self?.obtainProfile(with: lookupList)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -56,18 +51,20 @@ final class SearchInteractor: SearchInteractorInput {
         }
     }
     
-    func obtainProfile(with list: [Ticker]) {
-        var profileList: [Profile] = []
+    func obtainProfile(with tickerList: [Ticker]) {
+        var stockList: [Stock] = []
         let group = DispatchGroup.init()
         
-        for index in 0..<list.count {
-            let queryItem = [URLQueryItem(name: "symbol", value: list[index].displaySymbol)]
-            
+        for index in 0..<tickerList.count {
             group.enter()
-            networkManager.fetchData(path: "/api/v1/stock/profile2", queryItems: queryItem) { (result : Result <Profile, APINetworkError>) in
+            let symbol = tickerList[index].displaySymbol
+            requestManager.perform(StockRequest.getProfile(symbol: symbol)) { (result : Result <Profile, APINetworkError>) in
                 switch result {
                 case .success(let profile):
-                    profileList.append(profile)
+                    let stock = Stock(profile: profile, ticker: tickerList[index])
+                    if stock.profile != nil {
+                        stockList.append(stock)
+                    }
                     group.leave()
                 
                 case .failure(let error):
@@ -77,50 +74,55 @@ final class SearchInteractor: SearchInteractorInput {
             }
         }
         group.notify(queue: .main) {
-            self.obtainQuote(with: profileList)
-                              
+            self.obtainQuote(with: stockList)
         }
     }
     
-    func obtainQuote(with profileList: [Profile]) {
-        var stocksList: [Stock] = []
-
+    func obtainQuote(with stockList: [Stock]) {
+        var stockList: [Stock] = stockList
+        
+        var list: [Stock] = []
         let group = DispatchGroup.init()
         
-        for index in 0..<profileList.count {
-            let queryItem = [
-                URLQueryItem(name: "symbol", value: profileList[index].ticker)
-            ]
-            
+        for index in 0..<stockList.count {
             group.enter()
-            networkManager.fetchData(path: "/api/v1/quote", queryItems: queryItem) { (result : Result <Quote, APINetworkError>) in
+            guard let symbol = stockList[index].profile?.ticker else {
+                group.leave()
+                return
+            }
+            requestManager.perform(StockRequest.getQuote(symbol: symbol)) { (result : Result <Quote, APINetworkError>) in
                 switch result {
                 case .success(var quote):
-                    quote.dp = round(quote.dp * 100)/100
-                    let stock = Stock(profile: profileList[index], quote: quote, isFavourite: Bool())
-                    stocksList.append(stock)
+                    print(quote)
+//                    if quote == nil {
+//                        stockList.remove(at: index)
+//                    }
+                    
+                    guard let dp = quote.dp else { return }
+                    quote.dp = round(dp * 100)/100
+                    stockList[index].quote = quote
+                    list.append(stockList[index])
                     group.leave()
                 case .failure(let error):
+//                    stockList[index] = Stock()
+                    
                     print(error.localizedDescription)
                     group.leave()
                 }
             }
         }
         group.notify(queue: .main) {
-            self.output.didLoadStocksList(stocksList)
+            self.cleanStocksList(with: list)
+//            self.output.didLoadStocksList(stockList)
         }
     }
     
-    func getPriceData(with quote: Quote) -> (Double, Double, Double) {
-        
-        let currentPrice = quote.c
-        let change = round(quote.c - quote.o * 100) / 100.0
-        let changePercent = round(change/quote.o * 100 * 100) / 100.0
-        
-        let priceData = (currentPrice, change, changePercent)
-        return priceData
+    func cleanStocksList(with stockList: [Stock]) {
+        var list = stockList
+        for index in 0..<list.count {
+//            list.removeDu
+        }
+        self.output.didLoadStocksList(list)
     }
-    
-
     
 }

@@ -8,37 +8,40 @@
 import Foundation
 
 struct Stock {
-    let profile: Profile?
-    let quote: Quote?
-    let isFavourite: Bool?
+    var profile: Profile?
+    var quote: Quote?
+    var ticker: Ticker?
+    var isFavourite: Bool?
 }
 
 struct Profile: Decodable {
-    let logo: String
+    var logo: String
     let name: String
     let ticker: String
     let country: String
     let currency: String
     let exchange: String
+    var image: Data?
 }
 
-struct Candle: Decodable {
-    let c: [Double]?
-    let h: [Double]?
-    let l: [Double]?
-    let o: [Double]?
-    let s: String?
-    let t: [Double]?
-    let v: [Double]?
-    let error: String?
-}
+//struct Candle: Decodable {
+//    let c: [Double]?
+//    let h: [Double]?
+//    let l: [Double]?
+//    let o: [Double]?
+//    let s: String?
+//    let t: [Double]?
+//    let v: [Double]?
+//    let error: String?
+//}
 
 struct Quote: Decodable {
-    let c: Double
-    let d: Double
-    var dp: Double
-    let h: Double
-    let l: Double
-    let o: Double
-    let pc: Double
+    let c: Double?
+    let d: Double?
+    var dp: Double?
+    let h: Double?
+    let l: Double?
+    let o: Double?
+    let pc: Double?
+    let error: String?
 }
