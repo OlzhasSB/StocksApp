@@ -68,6 +68,7 @@ final class SearchInteractor: SearchInteractorInput {
                 switch result {
                 case .success(let profile):
                     profileList.append(profile)
+                    
                     group.leave()
                 
                 case .failure(let error):

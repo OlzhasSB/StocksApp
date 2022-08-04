@@ -67,6 +67,13 @@ class StockCell: UITableViewCell {
         
         makeConstraints()
         configureImageView()
+//        nameLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        logoImageVIew.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        tickerLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        priceLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        priceChangeLabel.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+//        starImageView.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .concrete), animation: nil, transition: .crossDissolve(0.25))
+        
     }
 
     required init?(coder: NSCoder) {
@@ -103,6 +110,7 @@ class StockCell: UITableViewCell {
             logoImageVIew.image = UIImage(named: "default.jpeg")
         }
     }
+
     
     private func makeConstraints() {
         

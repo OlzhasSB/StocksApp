@@ -8,7 +8,7 @@
 import UIKit
 import SkeletonView
 
-final class SearchDataDisplayManager: NSObject, SkeletonTableViewDelegate, SkeletonTableViewDataSource {
+final class SearchDataDisplayManager: NSObject {
     
     var stocksList: [Stock] = []
     var lastSearch: [String] = []
@@ -16,6 +16,9 @@ final class SearchDataDisplayManager: NSObject, SkeletonTableViewDelegate, Skele
     var onTickerDidSelect: ((Stock) -> Void)?
     var onFavouriteDidTap: ((Stock) -> Void)?
     var stocksIsEmpty: (() -> Void)?
+}
+
+extension SearchDataDisplayManager: SkeletonTableViewDelegate, SkeletonTableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stocksList.count
@@ -39,7 +42,6 @@ final class SearchDataDisplayManager: NSObject, SkeletonTableViewDelegate, Skele
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "stockCell") as! StockCell
         cell.setUp(with: stocksList[indexPath.row])
-        
         cell.selectionStyle = .none
         if indexPath.row % 2 == 0 {
             cell.cellView.backgroundColor = .systemGray5

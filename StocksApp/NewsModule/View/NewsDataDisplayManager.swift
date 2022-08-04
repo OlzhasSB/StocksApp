@@ -68,7 +68,6 @@ extension NewsDataDisplayManager: SkeletonTableViewDelegate, SkeletonTableViewDa
             guard let self = self else { return }
             self.onNewsUrlDidSelect?(self.news[indexPath.row].url)
         }
-        
         return cell
     }
 }

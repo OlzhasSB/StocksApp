@@ -15,10 +15,6 @@ final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput, Detail
     
     private var stock: Stock!
     
-    func configure(with stock: Stock) {
-        self.stock = stock
-    }
-    
     private var filter: [FilterEntity] = [
         FilterEntity.init(filter: "15"),
         FilterEntity.init(filter: "30"),
@@ -28,9 +24,14 @@ final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput, Detail
         FilterEntity.init(filter: "M")
     ]
 
+    func configure(with stock: Stock) {
+        self.stock = stock
+    }
+    
     func didLoadView() {
 //        interactor.obtainNews()
-        view.hundleObtainedFilter(filter)
+        view.handleObtainedFilter(filter)
+        view.handleObtainedStock(stock)
 //        view.hundleObtainedNews(news)
     }
 //
@@ -38,9 +39,9 @@ final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput, Detail
 //        interactor.ontainFilteredNews(with: news, category: category)
     }
 
-//    func didSelectNewsUrlCell(with url: String) {
-//        router.openNewsWebsite(with: url)
-//    }
+    func didSelectCompanyUrl(with url: String) {
+        router.openNewsWebsite(with: url)
+    }
 //
 //    func didLoadNews(_ news: [News]) {
 //        self.news = news

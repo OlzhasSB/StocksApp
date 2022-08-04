@@ -52,9 +52,8 @@ class SearchViewController: UIViewController {
         table.showsVerticalScrollIndicator = false
         table.separatorStyle = .none
         table.isSkeletonable = true
-        table.estimatedRowHeight = 100.0
+        table.estimatedRowHeight = 200.0
         table.rowHeight = UITableView.automaticDimension
-        table.backgroundColor = .systemBlue
         return table
     }()
 
@@ -211,10 +210,12 @@ class SearchViewController: UIViewController {
 extension SearchViewController: SearchViewInput {
     
     func showLoader() {
+        stocksTable.backgroundColor = .concrete
         stocksTable.showAnimatedGradientSkeleton(usingGradient: .init(baseColor: .clouds), animation: nil, transition: .crossDissolve(0.25))
     }
     
     func hideLoader() {
+        
         stocksTable.stopSkeletonAnimation()
         view.hideSkeleton(reloadDataAfter: true, transition: .crossDissolve(0.25))
     }

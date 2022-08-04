@@ -15,3 +15,4 @@ struct Ticker: Decodable {
     let description: String
     let displaySymbol: String
 }
+

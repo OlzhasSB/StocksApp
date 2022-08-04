@@ -9,14 +9,17 @@ import UIKit
 import HGPlaceholders
 import SkeletonView
 import Charts
+import SwiftUI
 
 protocol DetailsViewInput: AnyObject {
-    func hundleObtainedFilter(_ filter: [FilterEntity])
+    func handleObtainedFilter(_ filter: [FilterEntity])
+    func handleObtainedStock(_ stock: Stock)
 }
 
 protocol DetailsViewOutput {
     func didLoadView()
     func didSelectFilterCell(with filter: String)
+    func didSelectCompanyUrl(with url: String)
 }
 
 class DetailsViewController: UIViewController {
@@ -53,22 +56,59 @@ class DetailsViewController: UIViewController {
     }()
     
     lazy var lineChart: LineChartView = {
-        let chartView = LineChartView()
-    
-        chartView.leftAxis.enabled = false
-        chartView.xAxis.drawGridLinesEnabled = false
         
+        let chartView = LineChartView()
+        chartView.pinchZoomEnabled = false
+        chartView.setScaleEnabled(true)
+        chartView.xAxis.enabled = false
+        chartView.drawGridBackgroundEnabled = false
+        chartView.leftAxis.enabled = false
+        chartView.rightAxis.enabled = false
+
+        chartView.xAxis.drawGridLinesEnabled = false
+
         let yAxis = chartView.rightAxis
         yAxis.setLabelCount(6, force: false)
         yAxis.labelTextColor = .black
         yAxis.labelPosition = .outsideChart
         yAxis.drawGridLinesEnabled = false
-        
+        yAxis.enabled = true
+
         chartView.xAxis.labelPosition = .bottom
         chartView.xAxis.labelFont = .boldSystemFont(ofSize: 12)
         chartView.xAxis.setLabelCount(6, force: false)
         chartView.xAxis.labelTextColor = .black
+
+        chartView.animate(xAxisDuration: 0.8)
+        chartView.legend.enabled = false
+
+        return chartView
+    }()
+    
+    lazy var candleStickChart: CandleStickChartView = {
         
+        let chartView = CandleStickChartView()
+        chartView.pinchZoomEnabled = false
+        chartView.setScaleEnabled(true)
+        chartView.xAxis.enabled = false
+        chartView.drawGridBackgroundEnabled = false
+        chartView.leftAxis.enabled = false
+        chartView.rightAxis.enabled = false
+
+        chartView.xAxis.drawGridLinesEnabled = false
+
+        let yAxis = chartView.rightAxis
+        yAxis.setLabelCount(6, force: false)
+        yAxis.labelTextColor = .black
+        yAxis.labelPosition = .outsideChart
+        yAxis.drawGridLinesEnabled = false
+        yAxis.enabled = true
+
+        chartView.xAxis.labelPosition = .bottom
+        chartView.xAxis.labelFont = .boldSystemFont(ofSize: 12)
+        chartView.xAxis.setLabelCount(6, force: false)
+        chartView.xAxis.labelTextColor = .black
+
         chartView.animate(xAxisDuration: 0.8)
         chartView.legend.enabled = false
 
@@ -157,11 +197,24 @@ class DetailsViewController: UIViewController {
         return label
     }()
     
-    let weburl: UILabel = {
+    private lazy var weburl: UIButton = {
+        let button = UIButton()
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.setTitle("More on website", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(UIColor.systemGray2, for: .normal)
+        button.contentHorizontalAlignment = .left
+        button.addTarget(self, action: #selector(handleOpenUrl), for: .touchUpInside)
+        button.isSkeletonable = true
+        return button
+    }()
+    
+    var webSite: String = ""
+    var textNotes: [Int] = []
+    var infoLabelChart: UILabel = {
         let label = UILabel()
-        label.textColor = .systemGray2
-        label.text = "https://www.apple.com"
-        label.font = UIFont.boldSystemFont(ofSize: 14.0)
+        label.textColor = UIColor.black
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -169,11 +222,23 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setUpCollectionViews()
+        setUpViews()
         makeConstraints()
         setUPChartVuew()
         output?.didLoadView()
-        title = "China Fund Inc"
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+//        self.setDataCount(Int(100), range: UInt32(100))
+        candleStickChart.isHidden = true
+        self.setLineChart()
+    }
+    
+    @objc
+    func handleOpenUrl() {
+        output?.didSelectCompanyUrl(with: webSite)
     }
     
     func setUPChartVuew() {
@@ -202,26 +267,72 @@ class DetailsViewController: UIViewController {
         ChartDataEntry(x: 1574985600, y: 128.4218),
     ]
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    func setLineChart() {
         
-        let set = LineChartDataSet(entries: entities)
-        set.colors = ChartColorTemplates.material()
-        set.drawCirclesEnabled = false
-        set.mode = .cubicBezier
-        set.lineWidth = 3
-        set.drawIconsEnabled = false
-        set.drawValuesEnabled = false
+        
+    //        let new = ViewModelDataEntries(x: viewModel.data, y: viewModel.timeInterval)
+    //        for (index) in new.x.indices {
+    //            entries.append(ChartDataEntry(x: new.y[index], y: new.x[index]))
+    //        }
+        
+        
+        let gradientColors = [UIColor.black.cgColor, UIColor.clear.cgColor] as CFArray // Colors of the gradient
+        let colorLocations:[CGFloat] = [1.0, 0.0] // Positioning of the gradient
+        let gradient = CGGradient.init(colorsSpace: CGColorSpaceCreateDeviceRGB(), colors: gradientColors, locations: colorLocations) // Gradient Object
+        
+        let dataSet = LineChartDataSet(entries: entities)
+        dataSet.colors = ChartColorTemplates.liberty()
+        dataSet.fill = LinearGradientFill(gradient: gradient!, angle: 90.0)
+        dataSet.fillAlpha = 0.2
+        dataSet.drawFilledEnabled = true
+        dataSet.drawIconsEnabled = false
+        dataSet.drawValuesEnabled = false
+        dataSet.drawCirclesEnabled = false
+        dataSet.lineWidth = 3
+        dataSet.mode = .cubicBezier
 
-        set.drawHorizontalHighlightIndicatorEnabled = false
-        set.drawVerticalHighlightIndicatorEnabled = false
+        dataSet.drawHorizontalHighlightIndicatorEnabled = false
+        dataSet.drawVerticalHighlightIndicatorEnabled = false
         
-        let data = LineChartData(dataSet: set)
+        let data = LineChartData(dataSet: dataSet)
         data.setDrawValues(false)
-        lineChart.data = data
-        lineChart.setVisibleXRangeMaximum(1000000)
-        lineChart.moveViewToX(Double(entities.count - 1))
         
+        lineChart.setVisibleXRangeMaximum(1400000)
+        lineChart.moveViewToX(Double(entities.count - 1))
+
+        lineChart.data = data
+    }
+    
+    func setDataCount(_ count: Int, range: UInt32) {
+        
+        let yVals1 = (0..<count).map { (i) -> CandleChartDataEntry in
+            let mult = range + 1
+            let val = Double(arc4random_uniform(40) + mult)
+            let high = Double(arc4random_uniform(9) + 8)
+            let low = Double(arc4random_uniform(9) + 8)
+            let open = Double(arc4random_uniform(6) + 1)
+            let close = Double(arc4random_uniform(6) + 1)
+            let even = i % 2 == 0
+            
+            return CandleChartDataEntry(x: Double(i), shadowH: val + high, shadowL: val - low, open: even ? val + open : val - open, close: even ? val - close : val + close, icon: UIImage(named: "default.jpeg")!)
+        }
+        
+        let set1 = CandleChartDataSet(entries: yVals1)
+        set1.axisDependency = .left
+        set1.setColor(UIColor(white: 80/255, alpha: 1))
+        set1.drawIconsEnabled = false
+        set1.shadowColor = .darkGray
+        set1.shadowWidth = 0.7
+        set1.decreasingColor = .red
+        set1.decreasingFilled = true
+        set1.increasingColor = UIColor(red: 122/255, green: 242/255, blue: 84/255, alpha: 1)
+        set1.increasingFilled = false
+        set1.neutralColor = .blue
+        set1.drawHorizontalHighlightIndicatorEnabled = false
+        set1.drawVerticalHighlightIndicatorEnabled = false
+        
+        let data = CandleChartData(dataSet: set1)
+        candleStickChart.data = data
     }
     
     @objc
@@ -231,15 +342,19 @@ class DetailsViewController: UIViewController {
         
         switch index {
         case 0:
-            view.backgroundColor = .systemMint
+            view.backgroundColor = .white
+//            lineChart.isHidden = false
+//            candleStickChart.isHidden = true
         case 1:
-            view.backgroundColor = .systemPink
+            view.backgroundColor = .white
+//            lineChart.isHidden = true
+//            candleStickChart.isHidden = false
         default:
             break
         }
     }
     
-    private func setUpCollectionViews() {
+    private func setUpViews() {
         
         dataDisplayManager?.onFilterDidSelect = { [ weak self] filter in
             self?.output?.didSelectFilterCell(with: filter)
@@ -278,7 +393,15 @@ class DetailsViewController: UIViewController {
         view.addSubview(lineChart)
         lineChart.snp.makeConstraints { make in
             make.top.equalTo(priceChangeLabel.snp.bottom).offset(-10)
-            make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(10)
+            make.right.equalTo(view.safeAreaLayoutGuide).offset(-16)
+            make.height.equalTo(400)
+        }
+        
+        view.addSubview(candleStickChart)
+        candleStickChart.snp.makeConstraints { make in
+            make.top.equalTo(priceChangeLabel.snp.bottom).offset(-10)
+            make.left.equalTo(view.safeAreaLayoutGuide).offset(10)
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-16)
             make.height.equalTo(400)
         }
@@ -337,7 +460,26 @@ class DetailsViewController: UIViewController {
 
 extension DetailsViewController: DetailsViewInput {
     
-    func hundleObtainedFilter(_ filter: [FilterEntity]) {
+    func handleObtainedStock(_ stock: Stock) {
+        self.tickerLabel.text = stock.profile?.ticker
+        self.priceLabel.text = "$\(stock.quote?.c ?? 0)"
+        self.priceChangeLabel.text =  "\(stock.quote?.d ?? 0) \(stock.quote?.dp ?? 0)%"
+        
+        // Coloring price
+        guard let priceChange = stock.quote?.d else { return }
+        if priceChange < 0 {
+            priceChangeLabel.textColor = .red
+        }
+        
+        self.title = stock.profile?.name
+        self.country.text = "Country: \(stock.profile!.country)"
+        self.exchange.text = "Exchange: \(stock.profile!.exchange)"
+        self.ipo.text = "IPO: \(stock.profile!.ipo)"
+        self.finnhubIndustry.text = "Industry: \(stock.profile!.finnhubIndustry)"
+        self.webSite = stock.profile!.weburl
+    }
+    
+    func handleObtainedFilter(_ filter: [FilterEntity]) {
         dataDisplayManager?.filter = filter
         filterCollectionView.reloadData()
         
@@ -349,7 +491,9 @@ extension DetailsViewController: DetailsViewInput {
 
 extension DetailsViewController: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
-        print(entry)
+        print("MY POINTS ARE \(entry)")
+        let pos = NSInteger(entry.y)
+        infoLabelChart.text = "\(pos)"
     }
 }
 
